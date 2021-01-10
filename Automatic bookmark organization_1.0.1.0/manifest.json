@@ -1,0 +1,33 @@
+{
+	"manifest_version": 2,
+	"author": "Kazina",
+	"homepage_url": "https://trello.com/b/ukQDY31n/automatic-bookmark-organization",
+	"name": "Automatic bookmark organization",
+	"short_name": "Auto organize bookmark",
+	"description": "Frees you from organizing your bookmarks.",
+	"version": "1.0.0.2",
+	"icons": {
+		"16": "icon_16.png",
+		"32": "icon_32.png",
+		"48": "icon_48.png",
+		"64": "icon_64.png",
+		"128": "icon_128.png"
+	},
+	"browser_action": {
+		"default_icon": "icon_128.png",
+		"default_title": "Reset(Initialize)"
+	},
+	"background": {
+		"scripts": [
+			"js/jQuery/jQuery-3.4.1.js",
+			"js/script.js"
+		],
+		"persistent": false
+	},
+	"permissions": [
+		"bookmarks",
+		"storage",
+		"tabs"
+	],
+	"options_page": "options.html"
+}
