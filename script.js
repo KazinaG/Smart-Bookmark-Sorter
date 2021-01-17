@@ -1,11 +1,12 @@
 // ブックマークを移動した際に、ブックマーク移動確認→ソート（ブックマーク移動）→ブックマーク移動確認→…の無限ループが発生するため、それの抑止
 let bookmarkMoveWaitCount = 0;
-let sleepSec = 5;
+let sleepSec = 1;
 let processList = [];
 let isProcessing = false;
 let node;
 //#region processType
 const typeInitialize = 'initialize';
+const typeOnCreated = 'onCreated';
 //#endregion processType
 
 //#region API
@@ -14,8 +15,13 @@ chrome.runtime.onInstalled.addListener(function () {
 	loop(sleepSec);
 });
 chrome.browserAction.onClicked.addListener(function () {
-	processList.push(typeInitialize);
+	processList.push([typeInitialize]);
 });
+
+chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
+	processList.push([typeOnCreated, id, bookmark]);
+});
+
 //#endregion API
 
 //#region Observer
@@ -42,13 +48,14 @@ const wait = (sec) => {
 async function observer() {
 	if (!isProcessing && (processList.length > 0)) {
 		isProcessing = true;
+		// TODOここで、localstorageを取得
 		while (processList.length > 0) {
 			console.log('判定開始');
 			await classifier(processList.shift());
 			console.log('判定終了');
 		}
 	}
-	else if (isProcessing && (processList.length == 0)) {
+	else if (isProcessing) {
 
 		// ブックマークの整理処理 TODO リファクタリング
 		console.log('ブックマークの整理開始');
@@ -62,12 +69,14 @@ async function observer() {
 };
 
 async function classifier(param) {
-	switch (param) {
+	switch (param[0]) {
 		case typeInitialize:
 			await initialize();
 			console.log('initialize実行終了2');
 			break;
-
+		case typeOnCreated:
+			await insertDbByCreatedBookmark(param[2]);
+			break;
 
 		default:
 	}
@@ -80,23 +89,25 @@ async function classifier(param) {
 async function sortBookmarks() {
 	return new Promise((resolve, reject) => {
 		node = sortIndexToAllNode(node);
-		setLocalStorageAndSortAllBookmarks(node);
+
+		console.log("start all bookmarks.")
+		replaceLocalStorage(node);
+		console.log("finish sort all bookmarks.")
+		sortAllBookmarks(node);
 		resolve();
 	});
 };
 
-const setLocalStorageAndSortAllBookmarks = function (node) {
-	setLocalStorage(node);
-	console.log("start all bookmarks.")
-	sortAllBookmarks(node);
-	console.log("finish sort all bookmarks.")
-
-	return node;
-};
 
 function setLocalStorage(value) {
 	chrome.storage.local.set({ key: value }, function () {
 		console.log("setLocalStorage");
+	});
+};
+
+const replaceLocalStorage = function (toChangeItem) {
+	chrome.storage.local.clear(function () {
+		setLocalStorage(toChangeItem);
 	});
 };
 
@@ -138,6 +149,19 @@ async function initialize() {
 			node = getBookmarks(rootList);
 			node = setViewsToAllNode(node);
 			console.log('initialize実行終了');
+			resolve();
+		});
+	});
+};
+
+async function insertDbByCreatedBookmark(bookmark) {
+	return new Promise((resolve, reject) => {
+		bookmark = setViews(bookmark);
+		if (bookmark.url) { }
+		else { bookmark = setChildren(bookmark); }
+		chrome.storage.local.get(key, function (value) {
+			let node = value[key];
+			node = insertNewNodeToAllNode(node, bookmark);
 			resolve();
 		});
 	});
