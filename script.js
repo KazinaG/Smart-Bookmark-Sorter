@@ -1,17 +1,35 @@
 // ブックマークを移動した際に、ブックマーク移動確認→ソート（ブックマーク移動）→ブックマーク移動確認→…の無限ループが発生するため、それの抑止
 let bookmarkMoveWaitCount = 0;
 let sleepSec = 5;
+let processList = [];
+let isProcessing = false;
+let node;
+//#region processType
+const typeInitialize = 'initialize';
+//#endregion processType
 
+//#region API
 chrome.runtime.onInstalled.addListener(function () {
-	observer();
 	// initialize();
+	loop(sleepSec);
 });
 chrome.browserAction.onClicked.addListener(function () {
-	initialize();
+	processList.push(typeInitialize);
 });
+//#endregion API
 
-const observer = function () {
-	sleep(sleepSec);
+//#region Observer
+async function loop(sec) {
+	try {
+		while (true) {
+			await wait(sec); // ここで?秒間止まります
+
+			// ここに目的の処理を書きます。
+			observer();
+		}
+	} catch (err) {
+		console.error(err);
+	}
 };
 
 const wait = (sec) => {
@@ -20,39 +38,113 @@ const wait = (sec) => {
 		//setTimeout(() => {reject(new Error("エラー！"))}, sec*1000);
 	});
 };
-async function sleep(sec) {
-	try {
-		while (true) {
-			await wait(sec); // ここで?秒間止まります
 
-			// ここに目的の処理を書きます。
-			const date = new Date();
-			const min = date.getMinutes();
-			const seco = date.getSeconds();
-			console.log(min + ':' + seco + '監視中…');
-			//console.log(new Date() + "監視中…");
+async function observer() {
+	if (!isProcessing && (processList.length > 0)) {
+		isProcessing = true;
+		while (processList.length > 0) {
+			console.log('判定開始');
+			await classifier(processList.shift());
+			console.log('判定終了');
 		}
-	} catch (err) {
-		console.error(err);
 	}
-}
+	else if (isProcessing && (processList.length == 0)) {
 
-function initialize() {
-	chrome.bookmarks.getTree(function (rootList) {
-		let node = setViewsToAllNode(getBookmarks(rootList));
+		// ブックマークの整理処理 TODO リファクタリング
+		console.log('ブックマークの整理開始');
+		await sortBookmarks();
+		isProcessing = false;
+		console.log('ブックマークの整理終了');
+	} else {
+		console.log('イベントなし。');
+	}
+	return;
+};
+
+async function classifier(param) {
+	switch (param) {
+		case typeInitialize:
+			await initialize();
+			console.log('initialize実行終了2');
+			break;
+
+
+		default:
+	}
+};
+
+//#endregion Observer
+
+
+//#region Sort bookmark
+async function sortBookmarks() {
+	return new Promise((resolve, reject) => {
 		node = sortIndexToAllNode(node);
-		node = setLocalStorageAndSortAllBookmarks(node);
+		setLocalStorageAndSortAllBookmarks(node);
+		resolve();
 	});
 };
 
-function getTree() {
-	let rootList2;
-	chrome.bookmarks.getTree(function (rootList) {
-		rootList2 = rootList;
-	});
-	return rootList2;
+const setLocalStorageAndSortAllBookmarks = function (node) {
+	setLocalStorage(node);
+	console.log("start all bookmarks.")
+	sortAllBookmarks(node);
+	console.log("finish sort all bookmarks.")
+
+	return node;
 };
 
+function setLocalStorage(value) {
+	chrome.storage.local.set({ key: value }, function () {
+		console.log("setLocalStorage");
+	});
+};
+
+function sortAllBookmarks(node) {
+	let nodeId = node.id;
+	if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { sortBookmark(node); }
+	if (node.children) {
+		let childrenNode = node.children;
+		for (let i in childrenNode) {
+			childrenNode[i] = sortAllBookmarks(childrenNode[i]);
+		};
+		node.children = childrenNode;
+	};
+	return node;
+};
+
+function sortBookmark(node) {
+	let id = node['id'];
+	let destination = { parentId: node['parentId'], index: node['index'] };
+	if (destination.parentId != undefined && destination.parentId != undefined) {
+		bookmarkMoveWaitCount = bookmarkMoveWaitCount + 1;
+		moveBookmarks(id, destination);
+	};
+};
+
+function moveBookmarks(id, destination) {
+	chrome.bookmarks.move(id, destination, function () {
+		bookmarkMoveWaitCount = bookmarkMoveWaitCount - 1;
+	});
+};
+//#endregion Sort bookmark
+
+
+//#region Executes
+async function initialize() {
+	console.log('initialize実行開始');
+	return new Promise((resolve, reject) => {
+		chrome.bookmarks.getTree(function (rootList) {
+			node = getBookmarks(rootList);
+			node = setViewsToAllNode(node);
+			console.log('initialize実行終了');
+			resolve();
+		});
+	});
+};
+//#endregion Executes
+
+//#region Processes
 function getBookmarks(rootList) {
 	// ルートオブジェクトの取得
 	let root_defaultBookmark = rootList[0];
@@ -127,47 +219,4 @@ function sortIndex(node) {
 		node[i]['index'] = Number(i);
 	};
 	return node;
-};
-
-const setLocalStorageAndSortAllBookmarks = function (node) {
-	setLocalStorage(node);
-	console.log("start all bookmarks.")
-	sortAllBookmarks(node);
-	console.log("finish sort all bookmarks.")
-
-	return node;
-};
-
-function setLocalStorage(value) {
-	chrome.storage.local.set({ key: value }, function () {
-		console.log("setLocalStorage");
-	});
-};
-
-function sortAllBookmarks(node) {
-	let nodeId = node.id;
-	if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { sortBookmark(node); }
-	if (node.children) {
-		let childrenNode = node.children;
-		for (let i in childrenNode) {
-			childrenNode[i] = sortAllBookmarks(childrenNode[i]);
-		};
-		node.children = childrenNode;
-	};
-	return node;
-};
-
-function sortBookmark(node) {
-	let id = node['id'];
-	let destination = { parentId: node['parentId'], index: node['index'] };
-	if (destination.parentId != undefined && destination.parentId != undefined) {
-		bookmarkMoveWaitCount = bookmarkMoveWaitCount + 1;
-		moveBookmarks(id, destination);
-	};
-};
-
-function moveBookmarks(id, destination) {
-	chrome.bookmarks.move(id, destination, function () {
-		bookmarkMoveWaitCount = bookmarkMoveWaitCount - 1;
-	});
 };
