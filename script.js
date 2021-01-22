@@ -25,13 +25,14 @@ chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
 //#endregion API
 
 //#region Observer
-async function loop(sec) {
+// TODO 次はここのテスト（タイムアウトが同期処理になっていることをチェック。）
+function loop(sec) {
 	try {
 		while (true) {
 			Promise.resolve()
-				.then(async () => {
-					return wait(sec); // ここで?秒間止まります
-				}).then(
+				.then(
+					wait(sec) // ここで?秒間止まります
+				).then(
 					// ここに目的の処理を書きます。
 					observer()
 				)
