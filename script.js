@@ -26,10 +26,10 @@ chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
 
 //#region Observer
 // TODO 次はここのテスト（タイムアウトが同期処理になっていることをチェック。）
-function loop(sec) {
+async function loop(sec) {
 	try {
 		while (true) {
-			Promise.resolve()
+			await Promise.resolve()
 				.then(
 					wait(sec) // ここで?秒間止まります
 				).then(
