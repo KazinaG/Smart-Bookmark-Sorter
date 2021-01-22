@@ -28,10 +28,13 @@ chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
 async function loop(sec) {
 	try {
 		while (true) {
-			await wait(sec); // ここで?秒間止まります
-
-			// ここに目的の処理を書きます。
-			await observer();
+			Promise.resolve()
+				.then(async () => {
+					return wait(sec); // ここで?秒間止まります
+				}).then(
+					// ここに目的の処理を書きます。
+					observer()
+				)
 		}
 	} catch (err) {
 		console.error(err);
@@ -45,51 +48,68 @@ const wait = (sec) => {
 	});
 };
 
-async function observer() {
-	if (!isProcessing && (processList.length > 0)) {
-		isProcessing = true;
+function observer() {
+	return new Promise((resolve, reject) => {
+		if (!isProcessing && (processList.length > 0)) {
+			isProcessing = true;
 
-		await getLocalStorage();
+			// getLocalStorage();
 
-		while (processList.length > 0) {
-			console.log('判定開始');
-			await classifier(processList.shift());
-			console.log('判定終了');
+			// while (processList.length > 0) {
+			// 	console.log('判定開始');
+			// 	classifier(processList.shift());
+			// 	console.log('判定終了');
+			// }
+
+			// replaceLocalStorage();
+
+			return getLocalStorage()
+				.then(() => {
+					while (processList.length > 0) {
+						console.log('判定開始');
+						classifier(processList.shift());
+						console.log('判定終了');
+					}
+					resolve();
+				})
+				.then(replaceLocalStorage);
 		}
+		else if (isProcessing) {
 
-		await replaceLocalStorage();
+			getLocalStorage();
 
-	}
-	else if (isProcessing) {
+			// ブックマークの整理処理 TODO リファクタリング
+			console.log('ブックマークの整理開始');
+			sortBookmarks();
+			isProcessing = false;
+			console.log('ブックマークの整理終了');
 
-		await getLocalStorage();
-
-		// ブックマークの整理処理 TODO リファクタリング
-		console.log('ブックマークの整理開始');
-		await sortBookmarks();
-		isProcessing = false;
-		console.log('ブックマークの整理終了');
-
-		await replaceLocalStorage();
-
-	} else {
-		console.log('イベントなし。');
-	}
-	return;
+			replaceLocalStorage();
+		} else {
+			console.log('イベントなし。');
+		}
+		resolve();
+	});
 };
 
-async function classifier(param) {
-	switch (param[0]) {
-		case typeInitialize:
-			await initialize();
-			console.log('initialize実行終了2');
-			break;
-		case typeOnCreated:
-			insertDbByCreatedBookmark(param[2]);
-			break;
+function classifier(param) {
+	return new Promise((resolve, reject) => {
+		switch (param[0]) {
+			case typeInitialize:
+				return initialize()
+					.then(() => {
+						console.log('initialize実行終了2');
+						resolve();
+					});
+				break;
+			case typeOnCreated:
+				insertDbByCreatedBookmark(param[2]);
+				break;
 
-		default:
-	}
+			default:
+		}
+		resolve();
+	});
 };
 
 //#endregion Observer
@@ -97,7 +117,7 @@ async function classifier(param) {
 
 //#region Sort bookmark
 // TODO function名が、sortbookmarksとsortbookmarkでややこしい
-async function sortBookmarks() {
+function sortBookmarks() {
 	return new Promise((resolve, reject) => {
 		node = sortIndexToAllNode(node);
 
@@ -106,18 +126,17 @@ async function sortBookmarks() {
 	});
 };
 
-
-
-
-async function replaceLocalStorage() {
+function replaceLocalStorage() {
 	// return new Promise(async (resolve, reject) => {
 	// 	await clearLocalStorage();
 	// 	await setLocalStorage();
 	// 	resolve();
 	// });
-	Promise.resolve()
-		.then(clearLocalStorage)
-		.then(setLocalStorage);
+	// Promise.resolve()
+	// 	.then(clearLocalStorage)
+	// 	.then(setLocalStorage);
+
+	clearLocalStorage().then(setLocalStorage);
 };
 
 function clearLocalStorage() {
@@ -138,7 +157,7 @@ function setLocalStorage() {
 	});
 };
 
-async function getLocalStorage() {
+function getLocalStorage() {
 	return new Promise((resolve, reject) => {
 		try {
 			chrome.storage.local.get(key, (value) => {
@@ -184,7 +203,7 @@ function moveBookmarks(id, destination) {
 
 
 //#region Executes
-async function initialize() {
+function initialize() {
 	console.log('initialize実行開始');
 	return new Promise((resolve, reject) => {
 		chrome.bookmarks.getTree((rootList) => {
@@ -201,6 +220,33 @@ function insertDbByCreatedBookmark(bookmark) {
 	if (bookmark.url) { }
 	else { bookmark = setChildren(bookmark); }
 	node = insertNewNodeToAllNode(node, bookmark);
+};
+
+function setChildren(bookmark) {
+	bookmark['children'] = [];
+	return bookmark;
+};
+
+function insertNewNode(node, insertNode) {
+	let parentNodeId = node.id;
+	let nodeContents = node.children;
+	if (parentNodeId == insertNode.parentId) {
+		nodeContents[nodeContents.length] = insertNode;
+		node.children = nodeContents;
+	};
+	return node;
+};
+
+function insertNewNodeToAllNode(node, insertNode) {
+	if (node.children) {
+		node = insertNewNode(node, insertNode);
+		let childrenNode = node.children;
+		for (let i in childrenNode) {
+			childrenNode[i] = insertNewNodeToAllNode(childrenNode[i], insertNode);
+		};
+		node.children = childrenNode;
+	} else if (node.url) { };
+	return node;
 };
 //#endregion Executes
 
