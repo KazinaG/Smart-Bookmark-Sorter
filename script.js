@@ -1,6 +1,6 @@
 // ブックマークを移動した際に、ブックマーク移動確認→ソート（ブックマーク移動）→ブックマーク移動確認→…の無限ループが発生するため、それの抑止
 let bookmarkMoveWaitCount = 0;
-let sleepSec = 1;
+let sleepSec = 5;
 let processList = [];
 let isProcessing = false;
 let node;
@@ -11,8 +11,7 @@ const typeOnCreated = 'onCreated';
 
 //#region API
 chrome.runtime.onInstalled.addListener(function () {
-	// initialize();
-	loop(sleepSec);
+	loop();
 });
 chrome.browserAction.onClicked.addListener(function () {
 	processList.push([typeInitialize]);
@@ -25,44 +24,28 @@ chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
 //#endregion API
 
 //#region Observer
-// TODO 次はここのテスト（タイムアウトが同期処理になっていることをチェック。）
-async function loop(sec) {
-	try {
-		while (true) {
-			await Promise.resolve()
-				.then(
-					wait(sec) // ここで?秒間止まります
-				).then(
-					// ここに目的の処理を書きます。
-					observer()
-				)
-		}
-	} catch (err) {
-		console.error(err);
+async function loop() {
+	while (true) {
+		console.log('1 ' + new Date());
+		await wait();
+		console.log('2 ' + new Date());
+		await observer();
+		console.log('3 ' + new Date());
 	}
-};
+}
 
-const wait = (sec) => {
-	return new Promise((resolve, reject) => {
-		setTimeout(resolve, sec * 1000);
-		//setTimeout(() => {reject(new Error("エラー！"))}, sec*1000);
-	});
-};
+function wait(value) {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve(value);
+		}, 1000);
+	})
+}
 
 function observer() {
 	return new Promise((resolve, reject) => {
 		if (!isProcessing && (processList.length > 0)) {
 			isProcessing = true;
-
-			// getLocalStorage();
-
-			// while (processList.length > 0) {
-			// 	console.log('判定開始');
-			// 	classifier(processList.shift());
-			// 	console.log('判定終了');
-			// }
-
-			// replaceLocalStorage();
 
 			return getLocalStorage()
 				.then(() => {
@@ -87,7 +70,7 @@ function observer() {
 
 			replaceLocalStorage();
 		} else {
-			console.log('イベントなし。');
+			console.log('イベントなし at ' + new Date() + '.');
 		}
 		resolve();
 	});
