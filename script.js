@@ -117,17 +117,11 @@ function setLocalStorage() {
 
 function getLocalStorage() {
 	return new Promise((resolve, reject) => {
-		try {
-			chrome.storage.local.get(key, (value) => {
-				node = value[key];
-				resolve();
-			});
-		}
-		catch (e) {
-			console.log(e);
-			console.log('local storage is empty.');
+		chrome.storage.local.get(key, (value) => {
+			node = value[key];
+			console.log('get local storage.');
 			resolve();
-		}
+		});
 	});
 }
 
