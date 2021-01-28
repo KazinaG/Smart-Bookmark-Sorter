@@ -1,6 +1,7 @@
 // 監視開始
 loop();
 
+
 //#region API
 chrome.runtime.onInstalled.addListener(function () {
 	processList.push([typeInitialize]);
