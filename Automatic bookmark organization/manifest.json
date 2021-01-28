@@ -21,10 +21,10 @@
 		"scripts": [
 			"js/jQuery/jQuery-3.4.1.js",
 			"js/constant.js",
-			"js/trigger.js",
 			"js/observer.js",
 			"js/bookmark-sorter.js",
-			"js/processor.js"
+			"js/processor.js",
+			"js/trigger.js"
 		],
 		"persistent": false
 	},
