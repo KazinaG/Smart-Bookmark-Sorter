@@ -52,26 +52,26 @@ function setChildren(bookmark) {
     return bookmark;
 };
 
-function insertNewNode(node, insertNode) {
-    let parentNodeId = node.id;
-    let nodeContents = node.children;
+function insertNewNode(tmpNode, insertNode) {
+    let parentNodeId = tmpNode.id;
+    let nodeContents = tmpNode.children;
     if (parentNodeId == insertNode.parentId) {
         nodeContents[nodeContents.length] = insertNode;
-        node.children = nodeContents;
+        tmpNode.children = nodeContents;
     };
-    return node;
+    return tmpNode;
 };
 
-function insertNewNodeToAllNode(node, insertNode) {
-    if (node.children) {
-        node = insertNewNode(node, insertNode);
-        let childrenNode = node.children;
+function insertNewNodeToAllNode(tmpNode, insertNode) {
+    if (tmpNode.children) {
+        tmpNode = insertNewNode(tmpNode, insertNode);
+        let childrenNode = tmpNode.children;
         for (let i in childrenNode) {
             childrenNode[i] = insertNewNodeToAllNode(childrenNode[i], insertNode);
         };
         node.children = childrenNode;
-    } else if (node.url) { };
-    return node;
+    } else if (tmpNode.url) { };
+    return tmpNode;
 };
 //#endregion Executes
 
@@ -86,34 +86,34 @@ function getBookmarks(rootList) {
     return bookmarkBarNode;
 };
 
-function setViewsToAllNode(node) {
-    if (node.children) {
-        node = setViews(node);
-        let childrenNode = node.children;
+function setViewsToAllNode(tmpNode) {
+    if (tmpNode.children) {
+        tmpNode = setViews(tmpNode);
+        let childrenNode = tmpNode.children;
         for (let i in childrenNode) { childrenNode[i] = setViewsToAllNode(childrenNode[i]); };
-        node.children = childrenNode;
-    } else if (node.url) { node = setViews(node); };
-    return node;
+        tmpNode.children = childrenNode;
+    } else if (tmpNode.url) { tmpNode = setViews(tmpNode); };
+    return tmpNode;
 };
 
-function setViews(node) {
-    node['views'] = 0;
-    return node;
+function setViews(tmpNode) {
+    tmpNode['views'] = 0;
+    return tmpNode;
 };
 
-function sortIndexToAllNode(node) {
-    if (node.children) {
-        let childrenNode = node.children;
+function sortIndexToAllNode(tmpNode) {
+    if (tmpNode.children) {
+        let childrenNode = tmpNode.children;
         childrenNode = sortIndex(childrenNode);
         for (let i in childrenNode) { childrenNode[i] = sortIndexToAllNode(childrenNode[i]); };
-        node.children = childrenNode;
-    } else if (node.url) { };
-    return node;
+        tmpNode.children = childrenNode;
+    } else if (tmpNode.url) { };
+    return tmpNode;
 };
 
-function sortIndex(node) {
+function sortIndex(tmpNode) {
     // sort
-    node.sort((a, b) => {
+    tmpNode.sort((a, b) => {
         // is folder(asc)
         {
             let aIsFolder = 0; // a is folder = 0, a is not folder = 1.
@@ -146,9 +146,9 @@ function sortIndex(node) {
         return 0;
     });
     // 順番通りにindexをソートする
-    for (var i in node) {
-        node[i]['index'] = Number(i);
+    for (var i in tmpNode) {
+        tmpNode[i]['index'] = Number(i);
     };
-    return node;
+    return tmpNode;
 };
 //#endregion

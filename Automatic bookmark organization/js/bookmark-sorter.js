@@ -4,6 +4,7 @@
 async function sortBookmarks() {
     node = sortIndexToAllNode(node);
     await sortAllBookmarks(node);
+    await getLocalStorage();
 };
 
 function setLocalStorage() {
@@ -16,22 +17,22 @@ function setLocalStorage() {
 };
 
 
-async function sortAllBookmarks(node) {
-    let nodeId = node.id;
-    if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { await sortBookmark(node); }
-    if (node.children) {
-        let childrenNode = node.children;
+async function sortAllBookmarks(tmpNode) {
+    let nodeId = tmpNode.id;
+    if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { await sortBookmark(tmpNode); }
+    if (tmpNode.children) {
+        let childrenNode = tmpNode.children;
         for (let i in childrenNode) {
             childrenNode[i] = sortAllBookmarks(childrenNode[i]);
         };
-        node.children = childrenNode;
+        tmpNode.children = childrenNode;
     };
-    return node;
+    return tmpNode;
 };
 
-async function sortBookmark(node) {
-    let id = node['id'];
-    let destination = { parentId: node['parentId'], index: node['index'] };
+async function sortBookmark(tmpNode) {
+    let id = tmpNode['id'];
+    let destination = { parentId: tmpNode['parentId'], index: tmpNode['index'] };
     if (destination.parentId != undefined && destination.parentId != undefined) {
         // TODO 下記のカウントアップがいるのか確認する。
         bookmarkMoveWaitCount = bookmarkMoveWaitCount + 1;
