@@ -26,6 +26,15 @@ function getLocalStorage() {
     });
 }
 
+function setLocalStorage() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.set({ key: node }, () => {
+            console.log('set local storage.');
+            resolve();
+        });
+    });
+};
+
 
 //#region Executes
 function initialize() {
