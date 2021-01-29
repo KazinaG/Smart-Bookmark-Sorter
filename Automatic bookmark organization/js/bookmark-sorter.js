@@ -7,16 +7,6 @@ async function sortBookmarks() {
     await getLocalStorage();
 };
 
-function setLocalStorage() {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.set({ key: node }, () => {
-            console.log('set local storage.');
-            resolve();
-        });
-    });
-};
-
-
 async function sortAllBookmarks(tmpNode) {
     let nodeId = tmpNode.id;
     if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { await sortBookmark(tmpNode); }

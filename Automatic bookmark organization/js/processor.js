@@ -4,7 +4,6 @@ async function replaceLocalStorage() {
     await setLocalStorage();
 };
 
-
 function clearLocalStorage() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.clear(() => {
@@ -13,8 +12,6 @@ function clearLocalStorage() {
         });
     });
 };
-
-
 
 function getLocalStorage() {
     return new Promise((resolve, reject) => {
@@ -25,6 +22,15 @@ function getLocalStorage() {
         });
     });
 }
+
+function setLocalStorage() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.set({ key: node }, () => {
+            console.log('set local storage.');
+            resolve();
+        });
+    });
+};
 
 
 //#region Executes
