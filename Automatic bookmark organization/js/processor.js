@@ -94,6 +94,10 @@ function insertNewNodeToAllNode(tmpNode, insertNode) {
     } else if (tmpNode.url) { };
     return tmpNode;
 };
+
+function removeDbRemovedBookmark(removeInfo) {
+    node = removeNodeToAllNode(node, removeInfo);
+}
 //#endregion Executes
 
 //#region Processes
@@ -169,6 +173,29 @@ function sortIndex(tmpNode) {
     // 順番通りにindexをソートする
     for (var i in tmpNode) {
         tmpNode[i]['index'] = Number(i);
+    };
+    return tmpNode;
+};
+
+function removeNodeToAllNode(tmpNode, removeInfo) {
+    if (tmpNode.children) {
+        tmpNode = removeNode(tmpNode, removeInfo.node.id);
+        let childrenNode = tmpNode.children;
+        for (let i in childrenNode) {
+            childrenNode[i] = removeNodeToAllNode(childrenNode[i], removeInfo);
+        };
+        tmpNode.children = childrenNode;
+    } else if (tmpNode.url) { };
+    return tmpNode;
+};
+
+function removeNode(tmpNode, removeNodeId) {
+    let nodeContents = tmpNode.children;
+    for (let i in nodeContents) {
+        if (nodeContents[i].id == removeNodeId) {
+            nodeContents.splice(i, 1);
+            tmpNode.children = nodeContents;
+        };
     };
     return tmpNode;
 };

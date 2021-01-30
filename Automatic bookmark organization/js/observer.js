@@ -50,6 +50,9 @@ async function classifier(param) {
 		case typeOnCreated:
 			insertDbByCreatedBookmark(param[2]);
 			break;
+		case typeOnRemoved:
+			removeDbRemovedBookmark(param[2]);
+			break;
 		case typeOnMoved:
 			moveDbByMovedBookmark(param[1], param[2]);
 			break;

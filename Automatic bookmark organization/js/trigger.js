@@ -14,9 +14,12 @@ chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
 	processList.push([typeOnCreated, id, bookmark]);
 });
 
+chrome.bookmarks.onRemoved.addListener(function (id, removeInfo) {
+	processList.push([typeOnRemoved, id, removeInfo])
+});
+
 chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
 	processList.push([typeOnMoved, id, moveInfo]);
 });
-
 //#endregion API
 
