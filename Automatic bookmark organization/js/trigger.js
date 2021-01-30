@@ -1,8 +1,6 @@
 // 監視開始
 loop();
 
-
-//#region API
 chrome.runtime.onInstalled.addListener(function () {
 	processList.push([typeInitialize]);
 });
@@ -21,5 +19,3 @@ chrome.bookmarks.onRemoved.addListener(function (id, removeInfo) {
 chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
 	processList.push([typeOnMoved, id, moveInfo]);
 });
-//#endregion API
-

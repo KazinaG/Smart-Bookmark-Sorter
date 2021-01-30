@@ -1,4 +1,3 @@
-//#region Observer
 async function loop() {
 	while (true) {
 		await wait();
@@ -61,5 +60,35 @@ async function classifier(param) {
 	}
 };
 
-//#endregion Observer
+async function replaceLocalStorage() {
+	await clearLocalStorage();
+	await setLocalStorage();
+};
 
+function clearLocalStorage() {
+	return new Promise((resolve, reject) => {
+		chrome.storage.local.clear(() => {
+			console.log('clear local storage.');
+			resolve();
+		});
+	});
+};
+
+function setLocalStorage() {
+	return new Promise((resolve, reject) => {
+		chrome.storage.local.set({ key: node }, () => {
+			console.log('set local storage.');
+			resolve();
+		});
+	});
+};
+
+function getLocalStorage() {
+	return new Promise((resolve, reject) => {
+		chrome.storage.local.get(key, (value) => {
+			node = value[key];
+			console.log('get local storage.');
+			resolve();
+		});
+	});
+}
