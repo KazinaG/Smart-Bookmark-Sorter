@@ -8,4 +8,6 @@ const key = 'key';
 //#region processType
 const typeInitialize = 'initialize';
 const typeOnCreated = 'onCreated';
+
+const typeOnMoved = 'onMoved';
 //#endregion processType

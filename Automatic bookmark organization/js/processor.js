@@ -53,6 +53,21 @@ function insertDbByCreatedBookmark(bookmark) {
     node = insertNewNodeToAllNode(node, bookmark);
 };
 
+function moveDbByMovedBookmark(id, moveInfo) {
+    if (bookmarkMoveWaitCount == 0) {
+        let bookmarkId = id;
+        let beforeParentId = moveInfo.oldParentId;
+        let afterParentId = moveInfo.parentId;
+
+
+        node = updateDbByMovedBookmark(node, bookmarkId, beforeParentId, afterParentId);
+        let nodeAndViews = folderViewsSumByBookmarkViews(node);
+        node = nodeAndViews.node;
+    }
+    else {
+    }
+};
+
 function setChildren(bookmark) {
     bookmark['children'] = [];
     return bookmark;
