@@ -4,10 +4,7 @@ function moveDbByMovedBookmark(id, moveInfo) {
         let beforeParentId = moveInfo.oldParentId;
         let afterParentId = moveInfo.parentId;
 
-
-        node = updateDbByMovedBookmark(node, bookmarkId, beforeParentId, afterParentId);
-        let nodeAndViews = folderViewsSumByBookmarkViews(node);
-        node = nodeAndViews.node;
+        node = updateDbByMovedBookmark(node, bookmarkId, beforeParentId, afterParentId); 11
     }
     else {
     }
@@ -157,25 +154,4 @@ function updateDatabase(request) {
     if (tmpNode.url) { tmpNode.url = changeInfo.url; }
     response.node = tmpNode;
     return response;
-};
-
-function folderViewsSumByBookmarkViews(tmpNode) {
-    let nodeAndViews = {
-        node: node,
-        views: 0
-    };
-    if (tmpNode.children) {
-        let childrenNode = tmpNode.children;
-        let folderViews = 0;
-        for (let i in childrenNode) {
-            nodeAndViews = folderViewsSumByBookmarkViews(childrenNode[i]);
-            childrenNode[i] = nodeAndViews.node;
-            folderViews = folderViews + nodeAndViews.views;
-        };
-        tmpNode.children = childrenNode;
-        tmpNode.views = folderViews;
-    }
-    nodeAndViews.views = tmpNode.views;
-    nodeAndViews.node = tmpNode;
-    return nodeAndViews;
 };

@@ -5,11 +5,6 @@ function insertDbByCreatedBookmark(bookmark) {
     node = insertNewNodeToAllNode(node, bookmark);
 };
 
-function setViews(tmpNode) {
-    tmpNode['views'] = 0;
-    return tmpNode;
-};
-
 function setChildren(bookmark) {
     bookmark['children'] = [];
     return bookmark;

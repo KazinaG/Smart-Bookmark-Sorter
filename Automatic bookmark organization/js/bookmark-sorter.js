@@ -1,5 +1,7 @@
 // TODO function名が、sortbookmarksとsortbookmarkでややこしい
 async function sortBookmarks() {
+    let nodeAndViews = folderViewsSumByBookmarkViews(node);
+    node = nodeAndViews.node;
     node = sortIndexToAllNode(node);
     await sortAllBookmarks(node);
     await getLocalStorage();
@@ -89,3 +91,23 @@ function moveBookmarks(id, destination) {
     });
 };
 
+function folderViewsSumByBookmarkViews(tmpNode) {
+    let nodeAndViews = {
+        node: node,
+        views: 0
+    };
+    if (tmpNode.children) {
+        let childrenNode = tmpNode.children;
+        let folderViews = 0;
+        for (let i in childrenNode) {
+            nodeAndViews = folderViewsSumByBookmarkViews(childrenNode[i]);
+            childrenNode[i] = nodeAndViews.node;
+            folderViews = folderViews + nodeAndViews.views;
+        };
+        tmpNode.children = childrenNode;
+        tmpNode.views = folderViews;
+    }
+    nodeAndViews.views = tmpNode.views;
+    nodeAndViews.node = tmpNode;
+    return nodeAndViews;
+};
