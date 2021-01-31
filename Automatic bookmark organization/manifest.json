@@ -22,7 +22,7 @@
 			"js/jQuery/jQuery-3.4.1.js",
 			"js/constant.js",
 			"js/observer.js",
-			"js/util.js.js",
+			"js/util.js",
 			"js/bookmark-sorter.js",
 			"js/processor/initialize.js",
 			"js/processor/onCreated.js",
