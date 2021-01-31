@@ -28,6 +28,7 @@
 			"js/processor/onCreated.js",
 			"js/processor/onRemoved.js",
 			"js/processor/onMoved.js",
+			"js/processor/onVisited.js",
 			"js/trigger.js"
 		],
 		"persistent": false
@@ -35,7 +36,8 @@
 	"permissions": [
 		"bookmarks",
 		"storage",
-		"tabs"
+		"tabs",
+		"history"
 	],
 	"options_page": "options.html"
 }

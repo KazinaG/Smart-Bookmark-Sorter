@@ -55,6 +55,9 @@ async function classifier(param) {
 		case typeOnMoved:
 			moveDbByMovedBookmark(param[1], param[2]);
 			break;
+		case typeOnVisited:
+			countupViewsOfDbByUrl(param[1]);
+			break;
 
 		default:
 	}

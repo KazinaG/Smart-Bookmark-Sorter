@@ -10,4 +10,5 @@ const typeInitialize = 'initialize';
 const typeOnCreated = 'onCreated';
 const typeOnRemoved = 'onRemoved';
 const typeOnMoved = 'onMoved';
+const typeOnVisited = 'onVisited';
 //#endregion processType

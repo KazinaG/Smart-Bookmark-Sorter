@@ -19,3 +19,7 @@ chrome.bookmarks.onRemoved.addListener(function (id, removeInfo) {
 chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
 	processList.push([typeOnMoved, id, moveInfo]);
 });
+
+chrome.history.onVisited.addListener(function (historyItem) {
+	processList.push([typeOnVisited, historyItem]);
+});
