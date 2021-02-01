@@ -1,8 +1,8 @@
 async function initialize() {
-    console.log('initialize実行開始');
+    // console.log('initialize実行開始');
     await getTree();
     node = await setViewsToAllNode(node);
-    console.log('initialize実行終了');
+    // console.log('initialize実行終了');
 };
 
 function getTree() {

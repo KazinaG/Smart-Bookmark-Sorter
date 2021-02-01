@@ -13,8 +13,8 @@ async function setVisitCount(tmpNode) {
 function getVisitCountByUrl(conditionUrl) {
     return new Promise((resolve) => {
         chrome.history.getVisits({ url: conditionUrl }, function (visitItem) {
-            console.log(visitItem);
-            console.log(visitItem.length);
+            // console.log(visitItem);
+            // console.log(visitItem.length);
 
             resolve(visitItem.length);
         });
