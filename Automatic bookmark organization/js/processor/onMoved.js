@@ -11,9 +11,9 @@ function moveDbByMovedBookmark(id, moveInfo) {
 }
 
 function updateDbByMovedBookmark(tmpNode, bookmarkId, beforeParentId, afterParentId) {
-    // remove->createの順で使えば良い(bookmarkIdを元に)。更に、delete時にviewsを保持し、createする際にviewsを追加で入れてやれば、完璧。
+    // remove->createの順で使えば良い(bookmarkIdを元に)。更に、delete時にvisitCountを保持し、createする際にvisitCountを追加で入れてやれば、完璧。
     let bookmarkInfo;
-    // Delete from Database by bookmarkId and get views.
+    // Delete from Database by bookmarkId and get visitCount.
     // get bookmark info what bookmark id.
     let nodeAndBookmarkInfo = returnBookmarkInfoFromDbWhereBookmarkId(tmpNode, bookmarkId);
     bookmarkInfo = nodeAndBookmarkInfo.bookmarkInfo;

@@ -1,10 +1,9 @@
 // TODO function名が、sortbookmarksとsortbookmarkでややこしい
 async function sortBookmarks() {
-    let nodeAndViews = folderViewsSumByBookmarkViews(node);
-    node = nodeAndViews.node;
+    let nodeAndVisitCount = folderVisitCountSumByBookmarkVisitCount(node);
+    node = nodeAndVisitCount.node;
     node = sortIndexToAllNode(node);
     await sortAllBookmarks(node);
-    await getLocalStorage();
 };
 
 function sortIndexToAllNode(tmpNode) {
@@ -29,10 +28,10 @@ function sortIndex(tmpNode) {
             if (aIsFolder < bIsFolder) return -1;
             if (aIsFolder > bIsFolder) return 1;
         }
-        // views(desc)
+        // visitCount(desc)
         {
-            if (a.views > b.views) return -1;
-            if (a.views < b.views) return 1;
+            if (a.visitCount > b.visitCount) return -1;
+            if (a.visitCount < b.visitCount) return 1;
         }
         // title(asc)
         {
@@ -91,23 +90,23 @@ function moveBookmarks(id, destination) {
     });
 };
 
-function folderViewsSumByBookmarkViews(tmpNode) {
-    let nodeAndViews = {
+function folderVisitCountSumByBookmarkVisitCount(tmpNode) {
+    let nodeAndVisitCount = {
         node: node,
-        views: 0
+        visitCount: 0
     };
     if (tmpNode.children) {
         let childrenNode = tmpNode.children;
-        let folderViews = 0;
+        let folderVisitCount = 0;
         for (let i in childrenNode) {
-            nodeAndViews = folderViewsSumByBookmarkViews(childrenNode[i]);
-            childrenNode[i] = nodeAndViews.node;
-            folderViews = folderViews + nodeAndViews.views;
+            nodeAndVisitCount = folderVisitCountSumByBookmarkVisitCount(childrenNode[i]);
+            childrenNode[i] = nodeAndVisitCount.node;
+            folderVisitCount = folderVisitCount + nodeAndVisitCount.visitCount;
         };
         tmpNode.children = childrenNode;
-        tmpNode.views = folderViews;
+        tmpNode.visitCount = folderVisitCount;
     }
-    nodeAndViews.views = tmpNode.views;
-    nodeAndViews.node = tmpNode;
-    return nodeAndViews;
+    nodeAndVisitCount.visitCount = tmpNode.visitCount;
+    nodeAndVisitCount.node = tmpNode;
+    return nodeAndVisitCount;
 };

@@ -1,5 +1,5 @@
 function insertDbByCreatedBookmark(bookmark) {
-    bookmark = setViews(bookmark);
+    bookmark = setVisitCount(bookmark);
     if (bookmark.url) { }
     else { bookmark = setChildren(bookmark); }
     node = insertNewNodeToAllNode(node, bookmark);

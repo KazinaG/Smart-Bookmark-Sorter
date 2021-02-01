@@ -1,14 +1,18 @@
-function initialize() {
+async function initialize() {
     console.log('initialize実行開始');
+    await getTree();
+    node = await setViewsToAllNode(node);
+    console.log('initialize実行終了');
+};
+
+function getTree() {
     return new Promise((resolve, reject) => {
         chrome.bookmarks.getTree((rootList) => {
             node = getBookmarks(rootList);
-            node = setViewsToAllNode(node);
-            console.log('initialize実行終了');
             resolve();
         });
     });
-};
+}
 
 function getBookmarks(rootList) {
     // ルートオブジェクトの取得
@@ -20,12 +24,12 @@ function getBookmarks(rootList) {
     return bookmarkBarNode;
 };
 
-function setViewsToAllNode(tmpNode) {
+async function setViewsToAllNode(tmpNode) {
     if (tmpNode.children) {
-        tmpNode = setViews(tmpNode);
+        tmpNode = await setVisitCount(tmpNode);
         let childrenNode = tmpNode.children;
-        for (let i in childrenNode) { childrenNode[i] = setViewsToAllNode(childrenNode[i]); };
+        for (let i in childrenNode) { childrenNode[i] = await setViewsToAllNode(childrenNode[i]); };
         tmpNode.children = childrenNode;
-    } else if (tmpNode.url) { tmpNode = setViews(tmpNode); };
+    } else if (tmpNode.url) { tmpNode = await setVisitCount(tmpNode); };
     return tmpNode;
 };
