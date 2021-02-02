@@ -26,10 +26,10 @@ function getBookmarks(rootList) {
 
 async function setViewsToAllNode(tmpNode) {
     if (tmpNode.children) {
-        tmpNode = await setVisitCount(tmpNode);
+        tmpNode = await setVisitPoint(tmpNode);
         let childrenNode = tmpNode.children;
         for (let i in childrenNode) { childrenNode[i] = await setViewsToAllNode(childrenNode[i]); };
         tmpNode.children = childrenNode;
-    } else if (tmpNode.url) { tmpNode = await setVisitCount(tmpNode); };
+    } else if (tmpNode.url) { tmpNode = await setVisitPoint(tmpNode); };
     return tmpNode;
 };

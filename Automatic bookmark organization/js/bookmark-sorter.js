@@ -1,6 +1,6 @@
 async function sortBookmarks() {
-    let nodeAndVisitCount = sumFolderVisitCount(node);
-    node = nodeAndVisitCount.node;
+    let nodeAndvisitPoint = sumFolderVisitPoint(node);
+    node = nodeAndvisitPoint.node;
     node = sortIndexForAllNode(node);
     await moveAllBookmarks(node);
 };
@@ -27,10 +27,10 @@ function sortIndex(tmpNode) {
             if (aIsFolder < bIsFolder) return -1;
             if (aIsFolder > bIsFolder) return 1;
         }
-        // visitCount(desc)
+        // visitPoint(desc)
         {
-            if (a.visitCount > b.visitCount) return -1;
-            if (a.visitCount < b.visitCount) return 1;
+            if (a.visitPoint > b.visitPoint) return -1;
+            if (a.visitPoint < b.visitPoint) return 1;
         }
         // title(asc)
         {
@@ -83,23 +83,23 @@ function moveBookmarks(tmpNode) {
     });
 };
 
-function sumFolderVisitCount(tmpNode) {
-    let nodeAndVisitCount = {
+function sumFolderVisitPoint(tmpNode) {
+    let nodeAndvisitPoint = {
         node: node,
-        visitCount: 0
+        visitPoint: 0
     };
     if (tmpNode.children) {
         let childrenNode = tmpNode.children;
-        let folderVisitCount = 0;
+        let foldervisitPoint = 0;
         for (let i in childrenNode) {
-            nodeAndVisitCount = sumFolderVisitCount(childrenNode[i]);
-            childrenNode[i] = nodeAndVisitCount.node;
-            folderVisitCount = folderVisitCount + nodeAndVisitCount.visitCount;
+            nodeAndvisitPoint = sumFolderVisitPoint(childrenNode[i]);
+            childrenNode[i] = nodeAndvisitPoint.node;
+            foldervisitPoint = foldervisitPoint + nodeAndvisitPoint.visitPoint;
         };
         tmpNode.children = childrenNode;
-        tmpNode.visitCount = folderVisitCount;
+        tmpNode.visitPoint = foldervisitPoint;
     }
-    nodeAndVisitCount.visitCount = tmpNode.visitCount;
-    nodeAndVisitCount.node = tmpNode;
-    return nodeAndVisitCount;
+    nodeAndvisitPoint.visitPoint = tmpNode.visitPoint;
+    nodeAndvisitPoint.node = tmpNode;
+    return nodeAndvisitPoint;
 };
