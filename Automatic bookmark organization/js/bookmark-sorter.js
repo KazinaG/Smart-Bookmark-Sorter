@@ -1,16 +1,15 @@
-// TODO function名が、sortbookmarksとsortbookmarkでややこしい
 async function sortBookmarks() {
-    let nodeAndVisitCount = folderVisitCountSumByBookmarkVisitCount(node);
+    let nodeAndVisitCount = sumFolderVisitCount(node);
     node = nodeAndVisitCount.node;
-    node = sortIndexToAllNode(node);
-    await sortAllBookmarks(node);
+    node = sortIndexForAllNode(node);
+    await moveAllBookmarks(node);
 };
 
-function sortIndexToAllNode(tmpNode) {
+function sortIndexForAllNode(tmpNode) {
     if (tmpNode.children) {
         let childrenNode = tmpNode.children;
         childrenNode = sortIndex(childrenNode);
-        for (let i in childrenNode) { childrenNode[i] = sortIndexToAllNode(childrenNode[i]); };
+        for (let i in childrenNode) { childrenNode[i] = sortIndexForAllNode(childrenNode[i]); };
         tmpNode.children = childrenNode;
     } else if (tmpNode.url) { };
     return tmpNode;
@@ -57,36 +56,34 @@ function sortIndex(tmpNode) {
     return tmpNode;
 };
 
-async function sortAllBookmarks(tmpNode) {
+async function moveAllBookmarks(tmpNode) {
     let nodeId = tmpNode.id;
-    if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { await sortBookmark(tmpNode); }
+    if (!(nodeId == 1 || nodeId == 2 || nodeId == 3)) { await moveBookmarks(tmpNode); }
     if (tmpNode.children) {
         let childrenNode = tmpNode.children;
         for (let i in childrenNode) {
-            childrenNode[i] = sortAllBookmarks(childrenNode[i]);
+            childrenNode[i] = moveAllBookmarks(childrenNode[i]);
         };
         tmpNode.children = childrenNode;
     };
     return tmpNode;
 };
 
-async function sortBookmark(tmpNode) {
-    let id = tmpNode['id'];
-    let destination = { parentId: tmpNode['parentId'], index: tmpNode['index'] };
-    if (destination.parentId != undefined && destination.parentId != undefined) {
-        await moveBookmarks(id, destination);
-    };
-};
-
-function moveBookmarks(id, destination) {
+function moveBookmarks(tmpNode) {
     return new Promise((resolve, reject) => {
-        chrome.bookmarks.move(id, destination, () => {
+        let id = tmpNode['id'];
+        let destination = { parentId: tmpNode['parentId'], index: tmpNode['index'] };
+        if (destination.parentId != undefined && destination.parentId != undefined) {
+            chrome.bookmarks.move(id, destination, () => {
+                resolve();
+            });
+        } else {
             resolve();
-        });
+        }
     });
 };
 
-function folderVisitCountSumByBookmarkVisitCount(tmpNode) {
+function sumFolderVisitCount(tmpNode) {
     let nodeAndVisitCount = {
         node: node,
         visitCount: 0
@@ -95,7 +92,7 @@ function folderVisitCountSumByBookmarkVisitCount(tmpNode) {
         let childrenNode = tmpNode.children;
         let folderVisitCount = 0;
         for (let i in childrenNode) {
-            nodeAndVisitCount = folderVisitCountSumByBookmarkVisitCount(childrenNode[i]);
+            nodeAndVisitCount = sumFolderVisitCount(childrenNode[i]);
             childrenNode[i] = nodeAndVisitCount.node;
             folderVisitCount = folderVisitCount + nodeAndVisitCount.visitCount;
         };
