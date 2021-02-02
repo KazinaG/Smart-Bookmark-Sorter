@@ -13,7 +13,20 @@ async function setVisitPoint(tmpNode) {
 function getVisitPointByUrl(conditionUrl) {
     return new Promise((resolve) => {
         chrome.history.getVisits({ url: conditionUrl }, function (visitItem) {
+            getVisitTime(visitItem);
             resolve(visitItem.length);
         });
     })
 };
+
+function getVisitTime(visitItem) {
+    for (let i in visitItem) {
+        let item = visitItem[i].visitTime;
+        console.log(item);
+
+        let a = new Date(item);
+
+        console.log(a);
+
+    }
+}
