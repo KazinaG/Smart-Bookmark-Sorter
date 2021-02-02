@@ -5,7 +5,7 @@
 	"name": "Automatic bookmark organization",
 	"short_name": "Auto organize bookmark",
 	"description": "Frees you from organizing your bookmarks.",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"icons": {
 		"16": "icon_16.png",
 		"32": "icon_32.png",
@@ -25,10 +25,6 @@
 			"js/util.js",
 			"js/bookmark-sorter.js",
 			"js/processor/initialize.js",
-			"js/processor/onCreated.js",
-			"js/processor/onRemoved.js",
-			"js/processor/onMoved.js",
-			"js/processor/onVisited.js",
 			"js/trigger.js"
 		],
 		"persistent": false

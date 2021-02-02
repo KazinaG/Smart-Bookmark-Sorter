@@ -74,8 +74,6 @@ async function sortBookmark(tmpNode) {
     let id = tmpNode['id'];
     let destination = { parentId: tmpNode['parentId'], index: tmpNode['index'] };
     if (destination.parentId != undefined && destination.parentId != undefined) {
-        // TODO 下記のカウントアップがいるのか確認する。
-        bookmarkMoveWaitCount = bookmarkMoveWaitCount + 1;
         await moveBookmarks(id, destination);
     };
 };
@@ -83,8 +81,6 @@ async function sortBookmark(tmpNode) {
 function moveBookmarks(id, destination) {
     return new Promise((resolve, reject) => {
         chrome.bookmarks.move(id, destination, () => {
-            // TODO 下記のカウントアップがいるのか確認する。
-            bookmarkMoveWaitCount = bookmarkMoveWaitCount - 1;
             resolve();
         });
     });

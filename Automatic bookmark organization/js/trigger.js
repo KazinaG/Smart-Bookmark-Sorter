@@ -10,20 +10,16 @@ chrome.browserAction.onClicked.addListener(function () {
 
 chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
 	processList.push([typeInitialize]);
-	// processList.push([typeOnCreated, id, bookmark]);
 });
 
 chrome.bookmarks.onRemoved.addListener(function (id, removeInfo) {
 	processList.push([typeInitialize]);
-	// processList.push([typeOnRemoved, id, removeInfo])
 });
 
 chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
 	processList.push([typeInitialize]);
-	// processList.push([typeOnMoved, id, moveInfo]);
 });
 
 chrome.history.onVisited.addListener(function (historyItem) {
 	processList.push([typeInitialize]);
-	// processList.push([typeOnVisited, historyItem]);
 });
