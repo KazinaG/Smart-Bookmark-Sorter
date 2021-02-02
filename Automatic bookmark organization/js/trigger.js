@@ -16,6 +16,10 @@ chrome.bookmarks.onRemoved.addListener(function (id, removeInfo) {
 	processList.push([typeInitialize]);
 });
 
+chrome.bookmarks.onChanged.addListener(function (id, changeInfo) {
+	processList.push([typeInitialize]);
+});
+
 chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
 	processList.push([typeInitialize]);
 });
