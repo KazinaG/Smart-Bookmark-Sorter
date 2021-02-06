@@ -1,6 +1,3 @@
-let term = 24;
-let decreasePercentage = 0.9;
-
 async function setVisitPoint(tmpNode) {
 
 	let url = tmpNode.url;
