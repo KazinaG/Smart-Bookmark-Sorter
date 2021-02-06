@@ -1,8 +1,6 @@
-async function initialize() {
-    // console.log('initialize実行開始');
+async function aggregate() {
     await getTree();
     node = await setViewsToAllNode(node);
-    // console.log('initialize実行終了');
 };
 
 function getTree() {
