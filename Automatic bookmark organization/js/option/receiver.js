@@ -4,32 +4,32 @@ chrome.runtime.onMessage.addListener(
 
         switch (request.term) {
             case 'none':
-                term = 1
+                term = term_none
                 break;
-            case 'low':
-                term = 2
+            case 'short':
+                term = term_short
                 break;
             case 'middle':
-                term = 3
+                term = term_middle
                 break;
-            case 'high':
-                term = 4
+            case 'long':
+                term = term_long
                 break;
             default:
         }
 
         switch (request.decreasePercentage) {
             case 'none':
-                decreasePercentage = 1
+                decreasePercentage = decreasePercentage_none
                 break;
             case 'low':
-                decreasePercentage = 0.9
+                decreasePercentage = decreasePercentage_low
                 break;
             case 'middle':
-                decreasePercentage = 0.5
+                decreasePercentage = decreasePercentage_middle
                 break;
             case 'high':
-                decreasePercentage = 0.1
+                decreasePercentage = decreasePercentage_high
                 break;
             default:
         }

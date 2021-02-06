@@ -22,8 +22,8 @@ function getVisitPointByUrl(conditionUrl) {
 function getVisitPoint(visitItem) {
 	let visitPoint = 0;
 	for (let i in visitItem) {
-		if (new Date() < new Date(visitItem[i].visitTime)) {
-			// おそらくないが、未来の日時のvisitTimeがあった場合、現在の日時として扱う。
+		if (new Date() < new Date(visitItem[i].visitTime) || term == term_none) {
+			// 未来の日時のvisitTimeがあった場合、現在の日時として扱う。
 			visitPoint++;
 		}
 		else {
