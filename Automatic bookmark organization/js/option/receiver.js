@@ -36,8 +36,22 @@ async function responseConfiguration(request, sender, callback) {
 
 function getConfiguration() {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get(['configuration'], function (result) {
-            resolve(result.configuration);
-        });
+        try {
+            chrome.storage.sync.get(['configuration'], function (result) {
+                if (result.configuration) {
+                    resolve(result.configuration);
+                } else {
+                    resolve({
+                        term: term_short.toString(),
+                        decreasePercentage: decreasePercentage_low.toString()
+                    });
+                }
+            });
+        } catch {
+            resolve({
+                term: term_short.toString(),
+                decreasePercentage: decreasePercentage_low.toString()
+            });
+        }
     });
 }
