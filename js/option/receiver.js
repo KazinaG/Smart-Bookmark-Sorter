@@ -19,14 +19,20 @@ async function saveSyncStorage(request, sender, callback) {  // 1
     term = request.term;
     decreasePercentage = request.decreasePercentage;
 
-    await ssetConfiguration({ term: term, decreasePercentage: decreasePercentage });
+    await setConfiguration({ term: term, decreasePercentage: decreasePercentage });
 }
 
-function ssetConfiguration(value) {
+function setConfiguration(value) {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage } }, function () {
-            resolve();
-        });
+        try {
+            chrome.storage.sync.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage } }, function () {
+                resolve();
+            });
+        } catch {
+            chrome.storage.local.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage } }, function () {
+                resolve();
+            });
+        }
     });
 }
 
@@ -48,10 +54,23 @@ function getConfiguration() {
                 }
             });
         } catch {
-            resolve({
-                term: term_short.toString(),
-                decreasePercentage: decreasePercentage_low.toString()
-            });
+            try {
+                chrome.storage.local.get(['configuration'], function (result) {
+                    if (result.configuration) {
+                        resolve(result.configuration);
+                    } else {
+                        resolve({
+                            term: term_short.toString(),
+                            decreasePercentage: decreasePercentage_low.toString()
+                        });
+                    }
+                });
+            } catch {
+                resolve({
+                    term: term_short.toString(),
+                    decreasePercentage: decreasePercentage_low.toString()
+                });
+            }
         }
     });
 }
