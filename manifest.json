@@ -20,14 +20,14 @@
 	},
 	"background": {
 		"scripts": [
-			"js/jQuery/jQuery-3.4.1.js",
-			"js/constant.js",
-			"js/option/receiver.js",
-			"js/observer.js",
-			"js/processor/setVisitPoint.js",
-			"js/processor/bookmark-sorter.js",
-			"js/processor/aggregate.js",
-			"js/trigger.js"
+			"background/jQuery/jQuery-3.4.1.js",
+			"background/constant.js",
+			"background/option/receiver.js",
+			"background/observer.js",
+			"background/processor/setVisitPoint.js",
+			"background/processor/bookmark-sorter.js",
+			"background/processor/aggregate.js",
+			"background/trigger.js"
 		],
 		"persistent": false
 	},
