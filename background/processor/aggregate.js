@@ -1,6 +1,6 @@
 async function aggregate() {
     await getTree();
-    node = await setViewsToAllNode(node);
+    node = await setVisitPointToAllNode(node);
 };
 
 function getTree() {
@@ -22,11 +22,11 @@ function getBookmarks(rootList) {
     return bookmarkBarNode;
 };
 
-async function setViewsToAllNode(tmpNode) {
+async function setVisitPointToAllNode(tmpNode) {
     if (tmpNode.children) {
         tmpNode = await setVisitPoint(tmpNode);
         let childrenNode = tmpNode.children;
-        for (let i in childrenNode) { childrenNode[i] = await setViewsToAllNode(childrenNode[i]); };
+        for (let i in childrenNode) { childrenNode[i] = await setVisitPointToAllNode(childrenNode[i]); };
         tmpNode.children = childrenNode;
     } else if (tmpNode.url) { tmpNode = await setVisitPoint(tmpNode); };
     return tmpNode;
