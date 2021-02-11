@@ -29,7 +29,7 @@ async function observer() {
 
 async function classifier(param) {
 	switch (param[0]) {
-		case typeInitialize:
+		case typeAggregate:
 			await aggregate();
 			break;
 		default:

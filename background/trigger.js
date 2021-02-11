@@ -2,28 +2,28 @@
 loop();
 
 chrome.runtime.onInstalled.addListener(function () {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });
 chrome.browserAction.onClicked.addListener(function () {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });
 
 chrome.bookmarks.onCreated.addListener(function (id, bookmark) {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });
 
 chrome.bookmarks.onRemoved.addListener(function (id, removeInfo) {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });
 
 chrome.bookmarks.onChanged.addListener(function (id, changeInfo) {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });
 
 chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });
 
 chrome.history.onVisited.addListener(function (historyItem) {
-	processList.push([typeInitialize]);
+	processList.push([typeAggregate]);
 });

@@ -21,5 +21,5 @@ let decreasePercentage_high = 0.1;
 //#endregion
 
 //#region processType
-const typeInitialize = 'initialize';
+const typeAggregate = 'aggregate';
 //#endregion processType
