@@ -22,7 +22,7 @@ select {
 .cp_ipselect {
 	overflow: hidden;
 	width: 90%;
-	margin: 2em auto;
+	margin: 1em auto;
 	text-align: center;
 }
 .cp_ipselect select {
