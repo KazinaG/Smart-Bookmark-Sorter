@@ -1,23 +1,21 @@
-function save_options() {
-    let term = document.getElementById('term').value;
-    let decreasePercentage = document.getElementById('decreasePercentage').value;
+let term = document.getElementById('term');
+let decreasePercentage = document.getElementById('decreasePercentage');
 
+function save_options() {
     chrome.runtime.sendMessage({
         message: "saveOptions",
-        term: term,
-        decreasePercentage: decreasePercentage
+        term: term.value,
+        decreasePercentage: decreasePercentage.value
     }, function (response) {
     });
+    changeDisabled();
 }
 
 async function restore_options() {
-    let term = 1;
-    let decreasePercentage = 1;
     let configuration = await getConfigurationFromBackgroundPage();
-    term = termSelections.indexOf(parseInt(configuration.term));
-    decreasePercentage = decreasePercentageSelections.indexOf(parseFloat(configuration.decreasePercentage));
-    document.getElementById("term").selectedIndex = term;
-    document.getElementById("decreasePercentage").selectedIndex = decreasePercentage;
+    term.selectedIndex = termSelections.indexOf(parseInt(configuration.term));
+    decreasePercentage.selectedIndex = decreasePercentageSelections.indexOf(parseFloat(configuration.decreasePercentage));
+    changeDisabled();
 }
 
 function getConfigurationFromBackgroundPage() {
@@ -28,4 +26,13 @@ function getConfigurationFromBackgroundPage() {
             resolve(response);
         });
     });
+}
+
+function changeDisabled() {
+    if (term.value == term_none.toString()) {
+        decreasePercentage.disabled = true;
+    }
+    else {
+        decreasePercentage.disabled = false;
+    }
 }
