@@ -11,10 +11,40 @@ function save_options() {
     changeDisabled();
 }
 
+async function initialize() {
+    for (let i = 0; i < termSelections.length; i++) {
+        let option = document.createElement('option');
+        option.setAttribute('value', termSelections[i].value);
+        option.innerHTML = termSelections[i].display;
+        term.appendChild(option);
+    }
+
+    for (let i = 0; i < decreasePercentageSelections.length; i++) {
+        let option = document.createElement('option');
+        option.setAttribute('value', decreasePercentageSelections[i].value);
+        option.innerHTML = decreasePercentageSelections[i].display;
+        decreasePercentage.appendChild(option);
+    }
+
+    await restore_options();
+}
+
 async function restore_options() {
     let configuration = await getConfigurationFromBackgroundPage();
-    term.selectedIndex = termSelections.indexOf(parseInt(configuration.term));
-    decreasePercentage.selectedIndex = decreasePercentageSelections.indexOf(parseFloat(configuration.decreasePercentage));
+    for (let i = 0; i < termSelections.length; i++) {
+        if (termSelections[i].value == parseInt(configuration.term)) {
+            term.selectedIndex = i;
+            break;
+        }
+    }
+
+    for (let i = 0; i < decreasePercentageSelections.length; i++) {
+        if (decreasePercentageSelections[i].value == parseFloat(configuration.decreasePercentage)) {
+            decreasePercentage.selectedIndex = i;
+            break;
+        }
+    }
+
     changeDisabled();
 }
 
@@ -29,7 +59,7 @@ function getConfigurationFromBackgroundPage() {
 }
 
 function changeDisabled() {
-    if (term.value == term_none.toString()) {
+    if (parseInt(term.value) == termSelections[0].value) {
         decreasePercentage.disabled = true;
     }
     else {
