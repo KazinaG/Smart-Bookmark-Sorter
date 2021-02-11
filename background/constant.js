@@ -2,7 +2,7 @@ let sleepSec = 0.1;
 let processList = [];
 let isProcessing = false;
 let node;
-const key = 'key';
+const conf_key = 'configuration';
 
 //#region 
 let term = 24;

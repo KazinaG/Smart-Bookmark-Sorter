@@ -43,7 +43,7 @@ async function responseConfiguration(request, sender, callback) {
 function getConfiguration() {
     return new Promise((resolve, reject) => {
         try {
-            chrome.storage.sync.get(['configuration'], function (result) {
+            chrome.storage.sync.get([conf_key], function (result) {
                 if (result.configuration) {
                     resolve(result.configuration);
                 } else {
@@ -55,7 +55,7 @@ function getConfiguration() {
             });
         } catch {
             try {
-                chrome.storage.local.get(['configuration'], function (result) {
+                chrome.storage.local.get([conf_key], function (result) {
                     if (result.configuration) {
                         resolve(result.configuration);
                     } else {
