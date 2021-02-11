@@ -47,10 +47,7 @@ function getConfiguration() {
                 if (result.configuration) {
                     resolve(result.configuration);
                 } else {
-                    resolve({
-                        term: term_short.toString(),
-                        decreasePercentage: decreasePercentage_low.toString()
-                    });
+                    resolve(getConfiguration());
                 }
             });
         } catch {
@@ -59,18 +56,32 @@ function getConfiguration() {
                     if (result.configuration) {
                         resolve(result.configuration);
                     } else {
-                        resolve({
-                            term: term_short.toString(),
-                            decreasePercentage: decreasePercentage_low.toString()
-                        });
+                        resolve(getConfiguration());
                     }
                 });
             } catch {
-                resolve({
-                    term: term_short.toString(),
-                    decreasePercentage: decreasePercentage_low.toString()
-                });
+                resolve(getConfiguration());
             }
         }
     });
+}
+
+
+function getDefaults() {
+    let configuration = { term: null, decreasePercentage: null };
+    for (let i = 0; i < termSelections.length; i++) {
+        if (termSelections[i].default) {
+            configuration.term = termSelections[i].value.toString();
+            break;
+        }
+    }
+
+    for (let i = 0; i < decreasePercentageSelections.length; i++) {
+        if (decreasePercentageSelections[i].default) {
+            configuration.decreasePercentage = decreasePercentageSelections[i].value.toString();
+            break;
+        }
+    }
+
+    return configuration;
 }
