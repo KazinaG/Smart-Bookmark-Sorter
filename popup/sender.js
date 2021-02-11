@@ -12,6 +12,9 @@ function save_options() {
 }
 
 async function initialize() {
+
+    await getConstantFromBackgroundPage();
+
     for (let i = 0; i < termSelections.length; i++) {
         let option = document.createElement('option');
         option.setAttribute('value', termSelections[i].value);
@@ -46,6 +49,19 @@ async function restore_options() {
     }
 
     changeDisabled();
+}
+
+function getConstantFromBackgroundPage() {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({
+            message: "getConstant"
+        }, function (response) {
+            termSelections = response.termSelections;
+            decreasePercentageSelections = response.decreasePercentageSelections;
+
+            resolve(response);
+        });
+    });
 }
 
 function getConfigurationFromBackgroundPage() {

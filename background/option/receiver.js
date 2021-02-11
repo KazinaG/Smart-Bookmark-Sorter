@@ -6,6 +6,10 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'getConfiguration':
                 responseConfiguration(request, sender, callback);
+                break;
+            case 'getConstant':
+                responseConstant(request, sender, callback);
+                break;
             default:
                 break;
         }
@@ -33,6 +37,13 @@ function setConfiguration(value) {
                 resolve();
             });
         }
+    });
+}
+
+async function responseConstant(request, sender, callback) {
+    callback({
+        termSelections: termSelections,
+        decreasePercentageSelections: decreasePercentageSelections
     });
 }
 

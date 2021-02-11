@@ -6,6 +6,7 @@ const conf_key = 'configuration';
 
 //#region 
 let term = 24;
+const term_none = 0;
 const termSelections = [
     { display: "None", value: 0, default: false },
     { display: "Short", value: 24, default: true },
