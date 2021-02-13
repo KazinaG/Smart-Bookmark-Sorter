@@ -25,6 +25,14 @@ const decreasePercentageSelections = [
 ];
 //#endregion
 
+//#region 
+const sortTarget = [
+    { display: "Bookmarks bar", value: true },
+    { display: "Mobile bookmarks", value: false },
+    { display: "Other bookmarks", value: false }
+]
+//#endregion
+
 //#region processType
 const typeAggregate = 'aggregate';
 //#endregion processType
