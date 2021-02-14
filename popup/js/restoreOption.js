@@ -87,6 +87,9 @@ async function restore_options() {
     }
 
     sortOrderList = restoreOrderList.concat(sortOrderList);
+    for (let i = 0; i < sortOrderList.length; i++) {
+        changedSortOrder.push(sortOrderList[i].id);
+    }
 
     changeDisabled();
 }
