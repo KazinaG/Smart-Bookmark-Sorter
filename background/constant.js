@@ -33,12 +33,12 @@ const sortTarget = [
 ]
 //#endregion
 
-let sortOrder = [];
+let sortOrder = ["visitPoint", "folder", "title", "url"];
 const sortOrderList = [
-    { display: "Visit Point", id: 1 },
-    { display: "Folder", id: 2 },
-    { display: "Title", id: 3 },
-    { display: "URL", id: 4 }
+    { display: "Visit Point", id: "visitPoint" },
+    { display: "Folder", id: "folder" },
+    { display: "Title", id: "title" },
+    { display: "URL", id: "url" }
 ];
 
 //#region processType

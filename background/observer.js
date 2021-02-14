@@ -28,7 +28,7 @@ async function observer() {
 };
 
 async function classifier(param) {
-	switch (param[0]) {
+	switch (param) {
 		case typeAggregate:
 			await aggregate();
 			break;

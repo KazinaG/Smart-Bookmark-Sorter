@@ -18,34 +18,25 @@ function sortIndexForAllNode(tmpNode) {
 function sortIndex(tmpNode) {
 	// sort
 	tmpNode.sort((a, b) => {
-		// is folder(asc)
-		{
-			let aIsFolder = 0; // a is folder = 0, a is not folder = 1.
-			if (a.url) { aIsFolder = 1; };
-			let bIsFolder = 0; // b is folder = 0, a is not folder = 1.
-			if (b.url) { bIsFolder = 1; };
-			if (aIsFolder < bIsFolder) return -1;
-			if (aIsFolder > bIsFolder) return 1;
-		}
-		// visitPoint(desc)
-		{
-			if (a.visitPoint > b.visitPoint) return -1;
-			if (a.visitPoint < b.visitPoint) return 1;
-		}
-		// title(asc)
-		{
-			if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-			if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
-		}
-		// url(asc)
-		{
-			if (a.url < b.url) return -1;
-			if (a.url > b.url) return 1;
-		}
-		// id(asc)
-		{
-			if (a.id < b.id) return -1;
-			if (a.id > b.id) return 1;
+		let ret = 0;
+		for (let i = 0; i < sortOrder.length; i++) {
+			switch (sortOrder[i]) {
+				case "folder":
+					ret = sortByFolder(a, b);
+					break;
+				case "visitPoint":
+					ret = sortByVisitPoint(a, b);
+					break;
+				case "title":
+					ret = sortByTitle(a, b);
+					break;
+				case "url":
+					ret = sortByUrl(a, b);
+					break;
+				default:
+					break;
+			}
+			if (ret != 0) return ret;
 		}
 		return 0;
 	});
@@ -55,6 +46,34 @@ function sortIndex(tmpNode) {
 	};
 	return tmpNode;
 };
+
+// is folder(asc)
+function sortByFolder(a, b) {
+	let aIsFolder = 0; // a is folder = 0, a is not folder = 1.
+	if (a.url) { aIsFolder = 1; };
+	let bIsFolder = 0; // b is folder = 0, a is not folder = 1.
+	if (b.url) { bIsFolder = 1; };
+	if (aIsFolder < bIsFolder) return -1;
+	if (aIsFolder > bIsFolder) return 1;
+}
+
+// visitPoint(desc)
+function sortByVisitPoint(a, b) {
+	if (a.visitPoint > b.visitPoint) return -1;
+	if (a.visitPoint < b.visitPoint) return 1;
+}
+
+// title(asc)
+function sortByTitle(a, b) {
+	if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
+	if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
+}
+
+// url(asc)
+function sortByUrl(a, b) {
+	if (a.url < b.url) return -1;
+	if (a.url > b.url) return 1;
+}
 
 async function moveAllBookmarks(tmpNode) {
 	let nodeId = tmpNode.id;
