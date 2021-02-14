@@ -22,18 +22,19 @@ async function saveSyncStorage(request, sender, callback) {  // 1
 
     term = request.term;
     decreasePercentage = request.decreasePercentage;
+    sortOrder = request.sortOrderList;
 
-    await setConfiguration({ term: term, decreasePercentage: decreasePercentage });
+    await setConfiguration({ term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder });
 }
 
 function setConfiguration(value) {
     return new Promise((resolve, reject) => {
         try {
-            chrome.storage.sync.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage } }, function () {
+            chrome.storage.sync.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage, sortOrder: value.sortOrder } }, function () {
                 resolve();
             });
         } catch {
-            chrome.storage.local.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage } }, function () {
+            chrome.storage.local.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage, sortOrder: value.sortOrder } }, function () {
                 resolve();
             });
         }
@@ -43,7 +44,8 @@ function setConfiguration(value) {
 async function responseConstant(request, sender, callback) {
     callback({
         termSelections: termSelections,
-        decreasePercentageSelections: decreasePercentageSelections
+        decreasePercentageSelections: decreasePercentageSelections,
+        sortOrderList: sortOrderList
     });
 }
 
@@ -58,7 +60,7 @@ function getConfiguration() {
                 if (result.configuration) {
                     resolve(result.configuration);
                 } else {
-                    resolve(getConfiguration());
+                    resolve(getDefaults());
                 }
             });
         } catch {
@@ -67,11 +69,11 @@ function getConfiguration() {
                     if (result.configuration) {
                         resolve(result.configuration);
                     } else {
-                        resolve(getConfiguration());
+                        resolve(getDefaults());
                     }
                 });
             } catch {
-                resolve(getConfiguration());
+                resolve(getDefaults());
             }
         }
     });

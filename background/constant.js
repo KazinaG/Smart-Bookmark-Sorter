@@ -33,6 +33,14 @@ const sortTarget = [
 ]
 //#endregion
 
+let sortOrder = [];
+const sortOrderList = [
+    { display: "Visit Point", id: 1 },
+    { display: "Folder", id: 2 },
+    { display: "Title", id: 3 },
+    { display: "URL", id: 4 }
+];
+
 //#region processType
 const typeAggregate = 'aggregate';
 //#endregion processType
