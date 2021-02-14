@@ -36,7 +36,7 @@ function sortIndex(tmpNode) {
 				default:
 					break;
 			}
-			if (ret != 0) return ret;
+			if (ret) return ret;
 		}
 		return 0;
 	});
