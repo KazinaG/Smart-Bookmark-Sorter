@@ -24,21 +24,7 @@ async function saveSyncStorage(request, sender, callback) {  // 1
     decreasePercentage = request.decreasePercentage;
     sortOrder = request.sortOrderList;
 
-    await setConfiguration({ term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder });
-}
-
-function setConfiguration(value) {
-    return new Promise((resolve, reject) => {
-        try {
-            chrome.storage.sync.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage, sortOrder: value.sortOrder } }, function () {
-                resolve();
-            });
-        } catch {
-            chrome.storage.local.set({ configuration: { term: value.term, decreasePercentage: value.decreasePercentage, sortOrder: value.sortOrder } }, function () {
-                resolve();
-            });
-        }
-    });
+    await setConfiguration({ configuration: { term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder } });
 }
 
 async function responseConstant(request, sender, callback) {
@@ -50,51 +36,7 @@ async function responseConstant(request, sender, callback) {
 }
 
 async function responseConfiguration(request, sender, callback) {
-    callback(await getConfiguration());
-}
+    await toReflectConfig();
 
-function getConfiguration() {
-    return new Promise((resolve, reject) => {
-        try {
-            chrome.storage.sync.get([conf_key], function (result) {
-                if (result.configuration) {
-                    resolve(result.configuration);
-                } else {
-                    resolve(getDefaults());
-                }
-            });
-        } catch {
-            try {
-                chrome.storage.local.get([conf_key], function (result) {
-                    if (result.configuration) {
-                        resolve(result.configuration);
-                    } else {
-                        resolve(getDefaults());
-                    }
-                });
-            } catch {
-                resolve(getDefaults());
-            }
-        }
-    });
-}
-
-
-function getDefaults() {
-    let configuration = { term: null, decreasePercentage: null };
-    for (let i = 0; i < termSelections.length; i++) {
-        if (termSelections[i].default) {
-            configuration.term = termSelections[i].value.toString();
-            break;
-        }
-    }
-
-    for (let i = 0; i < decreasePercentageSelections.length; i++) {
-        if (decreasePercentageSelections[i].default) {
-            configuration.decreasePercentage = decreasePercentageSelections[i].value.toString();
-            break;
-        }
-    }
-
-    return configuration;
+    callback({ term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder });
 }

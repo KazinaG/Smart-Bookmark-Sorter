@@ -1,4 +1,4 @@
-<mxfile host="65bd71144e" modified="2021-02-22T13:31:41.206Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.53.2 Chrome/87.0.4280.141 Electron/11.2.1 Safari/537.36" etag="MHGVDjy5cvmT3263nNFk" version="14.2.4" type="embed" pages="5">
+<mxfile host="65bd71144e" modified="2021-02-23T01:54:42.743Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.53.2 Chrome/87.0.4280.141 Electron/11.2.1 Safari/537.36" etag="e6JA504NnKmMpMflorYm" version="14.2.4" type="embed" pages="5">
     <diagram name="storage" id="58F00zRcIBFb2UCwRBtE">
         <mxGraphModel dx="1514" dy="1190" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
@@ -7,20 +7,23 @@
                 <mxCell id="7rwBgxl0delBKILii6xo-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;exitX=1;exitY=0;exitDx=0;exitDy=15;exitPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-4" target="7rwBgxl0delBKILii6xo-9">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="7rwBgxl0delBKILii6xo-3" value="chrome.storage.onChanged.addListener発火時&lt;br&gt;起動時&lt;br&gt;popup時(1)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];horizontal=1;" vertex="1" connectable="0" parent="7rwBgxl0delBKILii6xo-2">
+                <mxCell id="7rwBgxl0delBKILii6xo-3" value="onChanged発火時&lt;br&gt;起動時&lt;br&gt;popup時(1)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];horizontal=1;" vertex="1" connectable="0" parent="7rwBgxl0delBKILii6xo-2">
                     <mxGeometry x="-0.1357" y="-3" relative="1" as="geometry">
                         <mxPoint x="15.999999999999996" y="-2.9999999999999982" as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-4" value="storage" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
-                    <mxGeometry x="-200" width="80" height="80" as="geometry"/>
+                    <mxGeometry x="-120" width="80" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="7rwBgxl0delBKILii6xo-5" value="option画面にて設定変更時(2)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;entryX=1;entryY=1;entryDx=0;entryDy=-15;entryPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-11" target="7rwBgxl0delBKILii6xo-9">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="7rwBgxl0delBKILii6xo-5" value="option画面にて設定変更時(1)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;entryX=1;entryY=1;entryDx=0;entryDy=-15;entryPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" target="7rwBgxl0delBKILii6xo-9">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="520" y="65" as="sourcePoint"/>
+                    </mxGeometry>
                 </mxCell>
-                <mxCell id="7rwBgxl0delBKILii6xo-7" value="popup時(2)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;exitX=1;exitY=0;exitDx=0;exitDy=15;exitPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-9" target="7rwBgxl0delBKILii6xo-11">
+                <mxCell id="7rwBgxl0delBKILii6xo-7" value="popup時(2)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;noEdgeStyle=1;orthogonal=1;exitX=1;exitY=0;exitDx=0;exitDy=15;exitPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-9">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint as="offset"/>
+                        <mxPoint x="520" y="15" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-8" value="Bookmarkソート時" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-9" target="7rwBgxl0delBKILii6xo-13">
@@ -32,33 +35,20 @@
                 <mxCell id="7rwBgxl0delBKILii6xo-9" value="constat&lt;br&gt;(background)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
                     <mxGeometry x="200" width="80" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="7rwBgxl0delBKILii6xo-10" value="popup時(3)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.855;exitY=1;exitDx=0;exitDy=-4.35;exitPerimeter=0;entryX=0;entryY=0;entryDx=65;entryDy=15;entryPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-11" target="7rwBgxl0delBKILii6xo-12">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="588" y="240" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="7rwBgxl0delBKILii6xo-11" value="constat&lt;br&gt;(popup)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
-                    <mxGeometry x="520" width="80" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="7rwBgxl0delBKILii6xo-20" value="option画面にて設定変更時(1)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.145;entryY=1;entryDx=0;entryDy=-4.35;entryPerimeter=0;exitX=0.15;exitY=0.01;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="7rwBgxl0delBKILii6xo-1" source="7rwBgxl0delBKILii6xo-12" target="7rwBgxl0delBKILii6xo-11">
-                    <mxGeometry x="-0.6987" y="32" relative="1" as="geometry">
-                        <mxPoint x="1" y="1" as="offset"/>
-                    </mxGeometry>
-                </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-12" value="optionページ表示" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
-                    <mxGeometry x="520" y="280" width="80" height="100" as="geometry"/>
+                    <mxGeometry x="520" y="-10" width="80" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-13" value="Bookmarkソート処理" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
                     <mxGeometry x="160" y="280" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-14" value="storage→constant（background) 処理" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
-                    <mxGeometry x="-40" y="-120" width="160" height="80" as="geometry"/>
+                    <mxGeometry y="-120" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-15" value="constat (background) → constat (popup) 処理" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
                     <mxGeometry x="320" y="-120" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-16" value="constat (popup)&amp;nbsp;→&amp;nbsp;storage&lt;br&gt;&amp;nbsp;処理" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
-                    <mxGeometry x="-40" y="120" width="160" height="80" as="geometry"/>
+                    <mxGeometry y="120" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="7rwBgxl0delBKILii6xo-19" value="constat (popup) → constat (background) 処理" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="7rwBgxl0delBKILii6xo-1">
                     <mxGeometry x="320" y="120" width="160" height="80" as="geometry"/>

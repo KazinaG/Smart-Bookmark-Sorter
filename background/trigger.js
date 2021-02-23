@@ -1,6 +1,8 @@
 // 監視開始
 loop();
 
+toReflectConfig();
+
 chrome.runtime.onInstalled.addListener(function () {
 	pusher(typeAggregate);
 });
@@ -27,6 +29,10 @@ chrome.bookmarks.onMoved.addListener(function (id, moveInfo) {
 
 chrome.history.onVisited.addListener(function (historyItem) {
 	pusher(typeAggregate);
+});
+
+chrome.storage.onChanged.addListener(function (changes, areaName) {
+	console.log("storage.onChanged:" + changes + ", " + areaName);
 });
 
 function pusher(params) {
