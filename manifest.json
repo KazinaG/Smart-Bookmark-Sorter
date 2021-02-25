@@ -22,6 +22,7 @@
 		"scripts": [
 			"background/jQuery/jQuery-3.4.1.js",
 			"background/constant.js",
+			"background/config.js",
 			"background/configUtil.js",
 			"background/option/receiver.js",
 			"background/observer.js",
