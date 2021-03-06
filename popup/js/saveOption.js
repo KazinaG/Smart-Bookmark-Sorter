@@ -3,7 +3,8 @@ function save_options() {
         message: "saveOptions",
         term: term.value,
         decreasePercentage: decreasePercentage.value,
-        sortOrderList: changedSortOrder
+        sortOrderList: changedSortOrder,
+        sortTarget: { isBar: sortTarget.bar.checked, isMobile: sortTarget.mobile.checked, isOther: sortTarget.other.checked }
     }, function (response) {
     });
     changeDisabled();

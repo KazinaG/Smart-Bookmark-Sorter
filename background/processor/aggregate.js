@@ -13,13 +13,11 @@ function getTree() {
 }
 
 function getBookmarks(rootList) {
-    // ルートオブジェクトの取得
-    let root_defaultBookmark = rootList[0];
-    // ルートオブジェクトから最上位のデフォルトのブックマークフォルダの配列の取得
-    let defaultBookmarkList = root_defaultBookmark['children'];
-    // 「ブックマークバー」の取得 0:ブックマークバー 1:その他ブックマーク 2:モバイルブックマーク
-    let bookmarkBarNode = defaultBookmarkList[0];
-    return bookmarkBarNode;
+    // ルートからソート対象以外のノードを削除
+    if (!sortTarget.isOther) rootList[0].children.splice(2, 1);
+    if (!sortTarget.isMobile) rootList[0].children.splice(1, 1);
+    if (!sortTarget.isBar) rootList[0].children.splice(0, 1);
+    return rootList[0];
 };
 
 async function setVisitPointToAllNode(tmpNode) {

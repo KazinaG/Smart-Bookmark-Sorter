@@ -5,6 +5,7 @@ async function sortBookmarks() {
             if (value.term) term = value.term;
             if (value.decreasePercentage) decreasePercentage = value.decreasePercentage;
             if (value.sortOrder) sortOrder = value.sortOrder;
+            if (value.sortTarget) sortTarget = value.sortTarget;
         });
     node = nodeAndvisitPoint.node;
     node = sortIndexForAllNode(node);

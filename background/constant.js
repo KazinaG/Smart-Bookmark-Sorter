@@ -17,7 +17,7 @@ const decreasePercentageSelections = [
     { display: "High", value: 0.1, default: false }
 ];
 
-const sortTarget = [
+const sortTargetList = [
     { display: "Bookmarks bar", value: true },
     { display: "Mobile bookmarks", value: false },
     { display: "Other bookmarks", value: false }

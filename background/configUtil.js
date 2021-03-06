@@ -14,9 +14,10 @@ function setConfiguration(value) {
 
 async function toReflectConfig() {
     let configuration = await getConfiguration();
-    term = configuration.term;
-    decreasePercentage = configuration.decreasePercentage;
-    sortOrder = configuration.sortOrder;
+    if (configuration.term) term = configuration.term;
+    if (configuration.decreasePercentage) decreasePercentage = configuration.decreasePercentage;
+    if (configuration.sortOrder) sortOrder = configuration.sortOrder;
+    if (configuration.sortTarget) sortTarget = configuration.sortTarget;
 }
 
 

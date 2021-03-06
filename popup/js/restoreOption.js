@@ -37,6 +37,9 @@ function getConstantFromBackgroundPage() {
             termSelections = response.termSelections;
             decreasePercentageSelections = response.decreasePercentageSelections;
             sortOrderList = response.sortOrderList;
+            sortTarget.bar.checked = response.sortTargetList[0].value;
+            sortTarget.mobile.checked = response.sortTargetList[1].value;
+            sortTarget.other.checked = response.sortTargetList[2].value;
             resolve(response);
         });
     });
@@ -89,6 +92,13 @@ async function restore_options() {
     sortOrderList = restoreOrderList.concat(sortOrderList);
     for (let i = 0; i < sortOrderList.length; i++) {
         changedSortOrder.push(sortOrderList[i].id);
+    }
+
+    // Storageから取得したソート対象の設定を画面に反映
+    if (configuration.sortTarget) {
+        sortTarget.bar.checked = configuration.sortTarget.isBar;
+        sortTarget.mobile.checked = configuration.sortTarget.isMobile;
+        sortTarget.other.checked = configuration.sortTarget.isOther;
     }
 
     changeDisabled();

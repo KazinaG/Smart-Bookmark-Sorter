@@ -17,26 +17,26 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-async function saveSyncStorage(request, sender, callback) {  // 1
+async function saveSyncStorage(request, sender, callback) {
     callback(request.message + '確認');
-
     term = request.term;
     decreasePercentage = request.decreasePercentage;
     sortOrder = request.sortOrderList;
-
-    await setConfiguration({ configuration: { term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder } });
+    sortTarget = request.sortTarget;
+    await setConfiguration({ configuration: { term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder, sortTarget: sortTarget } });
 }
 
 async function responseConstant(request, sender, callback) {
     callback({
         termSelections: termSelections,
         decreasePercentageSelections: decreasePercentageSelections,
-        sortOrderList: sortOrderList
+        sortOrderList: sortOrderList,
+        sortTargetList: sortTargetList
     });
 }
 
 async function responseConfiguration(request, sender, callback) {
     await toReflectConfig();
 
-    callback({ term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder });
+    callback({ term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder, sortTarget: sortTarget });
 }
