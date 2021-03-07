@@ -22,7 +22,7 @@ async function initialize() {
         let li = document.createElement('li');
         li.setAttribute('id', sortOrderList[i].id);
         li.innerHTML = sortOrderList[i].display;
-        li.setAttribute('class', 'list-group-item');
+        li.setAttribute('class', 'list-group-item text-dark');
         sortList.appendChild(li);
     }
 

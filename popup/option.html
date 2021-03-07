@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet"
-              href="css/option.css">
-        <link rel="stylesheet"
-              href="css/bootstrap.min.css" />
-        <script src="js/library/jQuery-3.4.1.min.js"></script>
-        <script src="js/library/jquery-ui.min.js"></script>
-        <script src="js/library/bootstrap.min.js"></script>
-        <title>Option</title>
-    </head>
-    <body>
-        <div class="margin"> This feature is in beta. <br>It has been tested, but it is difficult to explain, so please
-            touch it only if you know what it means.<br>
-            <hr> Term <select class="form-select"
-                    id="term"
-                    required>
-            </select>
-            <br> Decrease Percentage <select class="form-select"
-                    id="decreasePercentage"
-                    required>
-            </select>
-            <hr> Sort Target <div class="form-check form-switch">
-                <input class="form-check-input"
-                       type="checkbox"
-                       id="bookmarksBar" />
-                <label class="form-check-label"
-                       for="bookmarksBar">Bookmarks bar</label>
-                <br>
-                <input class="form-check-input"
-                       type="checkbox"
-                       id="mobileBookmarks" />
-                <label class="form-check-label"
-                       for="mobileBookmarks">Mobile bookmarks</label>
-                <br>
-                <input class="form-check-input"
-                       type="checkbox"
-                       id="otherBookmarks" />
-                <label class="form-check-label"
-                       for="otherBookmarks">Other bookmarks</label>
-            </div>
-            <hr> Sort Order <ul id="sortList"
-                class="list-group">
-            </ul>
-        </div>
-    </body>
-    <script src="js/config.js"></script>
-    <script src="js/utli.js"></script>
-    <script src="js/saveOption.js"></script>
-    <script src="js/restoreOption.js"></script>
-    <script src="js/option.js"></script>
+       <head>
+              <link rel="stylesheet"
+                    href="css/bootstrap.min.css" />
+              <script src="js/library/jQuery-3.4.1.min.js"></script>
+              <script src="js/library/jquery-ui.min.js"></script>
+              <script src="js/library/bootstrap.min.js"></script>
+              <link rel="stylesheet"
+                    href="css/option.css">
+              <title>Option</title>
+       </head>
+       <body>
+              <div class="p-3 mb-2 bg-dark text-white">
+                     <div class="text-center font-weight-bold"> Smart Bookmark Sorter</div>
+                     <hr> Term <select class="form-select"
+                             id="term"
+                             required>
+                     </select>
+                     <br> Decrease Percentage <select class="form-select"
+                             id="decreasePercentage"
+                             required>
+                     </select>
+                     <hr> Sort Target <div class="form-check form-switch">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="bookmarksBar" />
+                            <label class="form-check-label"
+                                   for="bookmarksBar">Bookmarks bar</label>
+                            <br>
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="mobileBookmarks" />
+                            <label class="form-check-label"
+                                   for="mobileBookmarks">Mobile bookmarks</label>
+                            <br>
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="otherBookmarks" />
+                            <label class="form-check-label"
+                                   for="otherBookmarks">Other bookmarks</label>
+                     </div>
+                     <hr> Sort Order <ul id="sortList"
+                         class="list-group">
+                     </ul>
+              </div>
+       </body>
+       <script src="js/config.js"></script>
+       <script src="js/utli.js"></script>
+       <script src="js/saveOption.js"></script>
+       <script src="js/restoreOption.js"></script>
+       <script src="js/option.js"></script>
 </html>
