@@ -24,6 +24,7 @@ async function saveSyncStorage(request, sender, callback) {
     sortOrder = request.sortOrderList;
     sortTarget = request.sortTarget;
     await setConfiguration({ configuration: { term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder, sortTarget: sortTarget } });
+    pusher(typeAggregate);
 }
 
 async function responseConstant(request, sender, callback) {
