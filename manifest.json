@@ -16,7 +16,7 @@
 	"browser_action": {
 		"default_icon": "icon_128.png",
 		"default_title": "Option",
-		"default_popup": "popup/option.html"
+		"default_popup": "popup/html/option.html"
 	},
 	"background": {
 		"scripts": [
