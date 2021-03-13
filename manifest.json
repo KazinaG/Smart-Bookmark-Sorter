@@ -36,6 +36,7 @@
 	"permissions": [
 		"bookmarks",
 		"history",
-		"storage"
+		"storage",
+		"tabs"
 	]
 }

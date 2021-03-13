@@ -3,6 +3,9 @@ async function setVisitPoint(tmpNode) {
 	let url = tmpNode.url;
 	if (url) {
 		let i = await getVisitPointByUrl(url);
+		if (i == 0) {
+			deleteSuggestionTargets++;
+		}
 		tmpNode['visitPoint'] = i;
 	} else {
 		tmpNode['visitPoint'] = 0;

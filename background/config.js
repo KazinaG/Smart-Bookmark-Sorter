@@ -8,3 +8,5 @@ let sortOrder = ["visitPoint", "folder", "title", "url"];
 let processList = [];
 let isProcessing = false;
 let node;
+
+let deleteSuggestionTargets = 0;
