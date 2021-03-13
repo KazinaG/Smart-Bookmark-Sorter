@@ -1,0 +1,1 @@
+let deleteSuggestionTable = document.getElementById('deleteSuggestionTable');

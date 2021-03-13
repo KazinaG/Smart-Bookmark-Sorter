@@ -10,6 +10,9 @@ chrome.runtime.onMessage.addListener(
             case 'getConstant':
                 responseConstant(request, sender, callback);
                 break;
+            case 'getDeleteTargets':
+                responseDeleteTargets(request, sender, callback);
+                break;
             default:
                 break;
         }
@@ -40,4 +43,8 @@ async function responseConfiguration(request, sender, callback) {
     await toReflectConfig();
 
     callback({ term: term, decreasePercentage: decreasePercentage, sortOrder: sortOrder, sortTarget: sortTarget });
+}
+
+async function responseDeleteTargets(request, sender, callback) {
+    callback(deleteSuggestionTargets);
 }

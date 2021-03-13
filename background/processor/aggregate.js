@@ -1,13 +1,14 @@
 async function aggregate() {
     await getTree();
 
-    deleteSuggestionTargets = 0;
+    deleteSuggestionTargets = [];
 
     node = await setVisitPointToAllNode(node);
 
-    if (deleteSuggestionTargets > 0) {
-        if (deleteSuggestionTargets >= 1000) deleteSuggestionTargets = '999+'
-        chrome.browserAction.setBadgeText({ text: String(deleteSuggestionTargets) });
+    if (deleteSuggestionTargets.length > 0) {
+        let displayBadge = deleteSuggestionTargets.length;
+        if (displayBadge >= 1000) displayBadge = '999+'
+        chrome.browserAction.setBadgeText({ text: String(displayBadge) });
     }
 };
 

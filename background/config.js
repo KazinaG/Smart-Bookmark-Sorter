@@ -9,4 +9,4 @@ let processList = [];
 let isProcessing = false;
 let node;
 
-let deleteSuggestionTargets = 0;
+let deleteSuggestionTargets = [];
