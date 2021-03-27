@@ -1,9 +1,11 @@
 async function aggregate() {
     await getTree();
 
-    deleteSuggestionTargets = [];
+    tempDeleteSuggestionTargets = [];
 
     node = await setVisitPointToAllNode(node);
+
+    deleteSuggestionTargets = tempDeleteSuggestionTargets;
 
     if (deleteSuggestionTargets.length > 0) {
         let displayBadge = deleteSuggestionTargets.length;

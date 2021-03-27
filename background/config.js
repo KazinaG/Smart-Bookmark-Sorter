@@ -10,3 +10,4 @@ let isProcessing = false;
 let node;
 
 let deleteSuggestionTargets = [];
+let tempDeleteSuggestionTargets = [];
