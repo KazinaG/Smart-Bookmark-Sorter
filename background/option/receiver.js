@@ -13,6 +13,9 @@ chrome.runtime.onMessage.addListener(
             case 'getDeleteTargets':
                 responseDeleteTargets(request, sender, callback);
                 break;
+            case 'deleteBookmarks':
+                deleteBookmarks(request, sender, callback);
+                break;
             default:
                 break;
         }
@@ -47,4 +50,8 @@ async function responseConfiguration(request, sender, callback) {
 
 async function responseDeleteTargets(request, sender, callback) {
     callback(deleteSuggestionTargets);
+}
+
+async function deleteBookmarks(request, sender, callback) {
+    processList.push({ message: typeDeleteBookmarks, param: request.deleteIdList, callback: callback });
 }

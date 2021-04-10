@@ -37,6 +37,6 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 
 function pusher(params) {
 	if (processList[processList.length - 1] != params) {
-		processList.push(params);
+		processList.push({ message: params });
 	}
 }

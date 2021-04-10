@@ -27,10 +27,13 @@ async function observer() {
 	}
 };
 
-async function classifier(param) {
-	switch (param) {
+async function classifier(process) {
+	switch (process.message) {
 		case typeAggregate:
 			await aggregate();
+			break;
+		case typeDeleteBookmarks:
+			await deleteBookmarksById(process.param, process.callback);
 			break;
 		default:
 	}

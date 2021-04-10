@@ -29,6 +29,7 @@
 			"background/processor/setVisitPoint.js",
 			"background/processor/bookmark-sorter.js",
 			"background/processor/aggregate.js",
+			"background/processor/deleteBookmarks.js",
 			"background/trigger.js"
 		],
 		"persistent": false
