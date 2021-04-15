@@ -1,4 +1,7 @@
 function save_options() {
+    term.value = 24;
+    decreasePercentage.value = sortLevel.value;
+
     chrome.runtime.sendMessage({
         message: "saveOptions",
         term: term.value,
