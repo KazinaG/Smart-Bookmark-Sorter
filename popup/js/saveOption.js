@@ -10,5 +10,5 @@ function save_options() {
         sortTarget: { isBar: sortTarget.bar.checked, isMobile: sortTarget.mobile.checked, isOther: sortTarget.other.checked }
     }, function (response) {
     });
-    changeDisabled();
+    // changeDisabled();
 }
