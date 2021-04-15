@@ -18,6 +18,13 @@ const decreasePercentageSelections = [
     { display: "High", value: 0.1, default: false }
 ];
 
+const sortLevelSelections = [
+    { display: "None", value: 1.0, default: false },
+    { display: "Low", value: 0.9, default: true },
+    { display: "Middle", value: 0.5, default: false },
+    { display: "High", value: 0.1, default: false }
+];
+
 const sortTargetList = [
     { display: "Bookmarks bar", value: true },
     { display: "Mobile bookmarks", value: false },
