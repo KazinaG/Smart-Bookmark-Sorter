@@ -7,6 +7,8 @@
         <script src="../library/bootstrap.min.js"></script>
         <link rel="stylesheet" href="bootstrap-table.css">
         <script src="bootstrap-table.js"></script>
+        <link rel="stylesheet" href="bootstrap-table-sticky-header.css">
+        <script src="bootstrap-table-sticky-header.js"></script>
         <title>Delete Suggestion</title>
     </head>
     <body class="bg-dark text-white" style="overflow-x: hidden;">
@@ -24,15 +26,15 @@
             </div>
         </nav>
         <div class="p-3">
-            <table class="table table-dark" style="table-layout:fixed; word-wrap: break-word;" id="table"
-                data-sort-name="title" data-sort-order="asc">
+            <table data-height="825" class="table table-dark" style="table-layout:fixed; word-wrap: break-word;"
+                data-sticky-header="true" id="table">
                 <thead>
                     <tr>
-                        <th scope="col" data-width="75" data-align="center" data-field="checkbox"> Target</th>
+                        <th scope="col" data-width="75" data-align="center" data-field="checkbox">Target</th>
                         </th>
-                        <th scope="col" data-sortable="true" class="collapse" data-field="id">ID</th>
-                        <th scope="col" data-sortable="true" data-field="title">Title</th>
-                        <th scope="col" data-sortable="true" data-field="url">URL</th>
+                        <th scope="col" class="collapse" data-field="id">ID</th>
+                        <th scope="col" data-field="title">Title</th>
+                        <th scope="col" data-field="url">URL</th>
                     </tr>
                 </thead>
                 <tbody id="deleteSuggestionTable">
