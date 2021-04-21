@@ -27,14 +27,14 @@
         </nav>
         <div class="p-3">
             <table data-height="825" class="table table-dark" style="table-layout:fixed; word-wrap: break-word;"
-                data-sticky-header="true" id="table">
+                data-sticky-header="true" data-sort-name="title" data-sort-order="asc" id="table">
                 <thead>
                     <tr>
                         <th scope="col" data-width="75" data-align="center" data-field="checkbox">Target</th>
                         </th>
                         <th scope="col" class="collapse" data-field="id">ID</th>
-                        <th scope="col" data-field="title">Title</th>
-                        <th scope="col" data-field="url">URL</th>
+                        <th scope="col" data-sortable="true" data-field="title">Title</th>
+                        <th scope="col" data-sortable="true" data-field="url">URL</th>
                     </tr>
                 </thead>
                 <tbody id="deleteSuggestionTable">
