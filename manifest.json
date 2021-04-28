@@ -39,5 +39,6 @@
 		"history",
 		"storage",
 		"tabs"
-	]
+	],
+	"default_locale": "en"
 }

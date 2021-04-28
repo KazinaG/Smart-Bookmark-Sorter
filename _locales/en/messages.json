@@ -1,0 +1,26 @@
+{
+    "popup_title": {
+        "message": "Option"
+    },
+    "delete_suggestion": {
+        "message": "Delete Suggestion"
+    },
+    "sort_target": {
+        "message": "Sort Target"
+    },
+    "bookmark_bar": {
+        "message": "Bookmarks bar"
+    },
+    "mobile_bookmarks": {
+        "message": "Mobile bookmarks"
+    },
+    "other_bookmarks": {
+        "message": "Other bookmarks"
+    },
+    "sort_order": {
+        "message": "Sort Order"
+    },
+    "sort_level": {
+        "message": "Sort Level"
+    }
+}

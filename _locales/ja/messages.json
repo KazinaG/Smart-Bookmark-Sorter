@@ -1,0 +1,26 @@
+{
+    "popup_title": {
+        "message": "オプション"
+    },
+    "delete_suggestion": {
+        "message": "削除提案"
+    },
+    "sort_target": {
+        "message": "ソート対象"
+    },
+    "bookmark_bar": {
+        "message": "ブックマークバー"
+    },
+    "mobile_bookmarks": {
+        "message": "モバイルのブックマーク"
+    },
+    "other_bookmarks": {
+        "message": "その他のブックマーク"
+    },
+    "sort_order": {
+        "message": "ソート順"
+    },
+    "sort_level": {
+        "message": "ソート強度"
+    }
+}
