@@ -37,8 +37,7 @@
 	"permissions": [
 		"bookmarks",
 		"history",
-		"storage",
-		"tabs"
+		"storage"
 	],
 	"default_locale": "en"
 }
