@@ -46,5 +46,11 @@
     },
     "url": {
         "message": "URL"
+    },
+    "description": {
+        "message": "This is a list of bookmarks with the lower number of views. Check and click Delete to remove it from your bookmarks."
+    },
+    "delete": {
+        "message": "Delete"
     }
 }
