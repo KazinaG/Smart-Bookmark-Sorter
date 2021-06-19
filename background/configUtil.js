@@ -65,3 +65,16 @@ function getDefaults() {
 
     return configuration;
 }
+
+function localizeResources() {
+    localizeResource(decreasePercentageSelections);
+    localizeResource(sortOrderList);
+}
+
+function localizeResource(target) {
+    for (let i = 0; i < target.length; i++) {
+        target[i].display = target[i].display.replace(/__MSG_(\w+)__/g, function (match, v1) {
+            return v1 ? chrome.i18n.getMessage(v1) : "";
+        });
+    }
+}

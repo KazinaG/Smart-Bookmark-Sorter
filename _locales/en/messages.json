@@ -22,5 +22,29 @@
     },
     "sort_level": {
         "message": "Sort Level"
+    },
+    "none": {
+        "message": "None"
+    },
+    "low": {
+        "message": "Low"
+    },
+    "middle": {
+        "message": "Middle"
+    },
+    "high": {
+        "message": "High"
+    },
+    "visit_point": {
+        "message": "Visit Point"
+    },
+    "folder": {
+        "message": "Folder"
+    },
+    "title": {
+        "message": "Title"
+    },
+    "url": {
+        "message": "URL"
     }
 }

@@ -22,5 +22,29 @@
     },
     "sort_level": {
         "message": "ソート強度"
+    },
+    "none": {
+        "message": "なし"
+    },
+    "low": {
+        "message": "弱"
+    },
+    "middle": {
+        "message": "中"
+    },
+    "high": {
+        "message": "強"
+    },
+    "visit_point": {
+        "message": "閲覧数"
+    },
+    "folder": {
+        "message": "フォルダー"
+    },
+    "title": {
+        "message": "タイトル"
+    },
+    "url": {
+        "message": "URL"
     }
 }
