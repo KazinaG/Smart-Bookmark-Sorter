@@ -1,7 +1,15 @@
 async function initialize() {
 
+    localizeHtmlPage();
+
+    // TODO 後ほどfunction化する。
+    sortLevel = document.getElementById('sortLevel');
+    sortList = document.getElementById('sortList');
+    sortTarget = { bar: document.getElementById('bookmarksBar'), mobile: document.getElementById('mobileBookmarks'), other: document.getElementById('otherBookmarks') };
+
     await getConstantFromBackgroundPage();
 
+    // フル機能用に下記のコメントは残しておく
     // for (let i = 0; i < termSelections.length; i++) {
     //     let option = document.createElement('option');
     //     option.setAttribute('value', termSelections[i].value);
@@ -65,6 +73,7 @@ function initializeSortList() {
 
 async function restore_options() {
     let configuration = await getConfigurationFromBackgroundPage();
+    // フル機能用に下記のコメントは残しておく
     // if (configuration.term) {
     //     for (let i = 0; i < termSelections.length; i++) {
     //         if (termSelections[i].value == parseInt(configuration.term)) {

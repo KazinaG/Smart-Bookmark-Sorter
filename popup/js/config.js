@@ -9,7 +9,6 @@ let changedSortOrder = [];
 let term = {};
 // let decreasePercentage = document.getElementById('decreasePercentage');
 let decreasePercentage = {};
-let sortLevel = document.getElementById('sortLevel');
-let sortList = document.getElementById('sortList');
-
-let sortTarget = { bar: document.getElementById('bookmarksBar'), mobile: document.getElementById('mobileBookmarks'), other: document.getElementById('otherBookmarks') };
+let sortLevel;
+let sortList;
+let sortTarget;

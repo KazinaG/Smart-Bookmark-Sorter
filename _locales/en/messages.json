@@ -1,0 +1,56 @@
+{
+    "popup_title": {
+        "message": "Option"
+    },
+    "delete_suggestion": {
+        "message": "Delete Suggestion"
+    },
+    "sort_target": {
+        "message": "Sort Target"
+    },
+    "bookmark_bar": {
+        "message": "Bookmarks bar"
+    },
+    "mobile_bookmarks": {
+        "message": "Mobile bookmarks"
+    },
+    "other_bookmarks": {
+        "message": "Other bookmarks"
+    },
+    "sort_order": {
+        "message": "Sort Order"
+    },
+    "sort_level": {
+        "message": "Sort Level"
+    },
+    "none": {
+        "message": "None"
+    },
+    "low": {
+        "message": "Low"
+    },
+    "middle": {
+        "message": "Middle"
+    },
+    "high": {
+        "message": "High"
+    },
+    "visit_point": {
+        "message": "Visit Point"
+    },
+    "folder": {
+        "message": "Folder"
+    },
+    "title": {
+        "message": "Title"
+    },
+    "url": {
+        "message": "URL"
+    },
+    "description": {
+        "message": "This is a list of bookmarks with the lower number of views. Check and click Delete to remove it from your bookmarks."
+    },
+    "delete": {
+        "message": "Delete"
+    }
+}

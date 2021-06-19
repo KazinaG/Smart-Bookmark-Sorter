@@ -9,7 +9,7 @@
         <script src="bootstrap-table.js"></script>
         <link rel="stylesheet" href="bootstrap-table-sticky-header.css">
         <script src="bootstrap-table-sticky-header.js"></script>
-        <title>Delete Suggestion</title>
+        <title>__MSG_delete_suggestion__</title>
     </head>
     <body class="bg-dark text-white" style="overflow-x: hidden;">
         <nav class="
@@ -21,10 +21,9 @@
           navbar-light
           bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"> Delete Suggestion </a>
-                <div class="navbar-text">This is a list of bookmarks with the lower number of views. Choose the list and
-                    click the Delete button to remove it from your bookmarks.</div>
-                <button type="button" class="btn btn-danger" id="delete">Delete</button>
+                <a class="navbar-brand" href="#">__MSG_delete_suggestion__</a>
+                <div class="navbar-text">__MSG_description__ </div>
+                <button type="button" class="btn btn-danger" id="delete">__MSG_delete__</button>
             </div>
         </nav>
         <div class="p-3">
@@ -32,11 +31,11 @@
                 data-sticky-header="true" data-sort-name="title" data-sort-order="asc" id="table">
                 <thead>
                     <tr>
-                        <th scope="col" data-width="75" data-align="center" data-field="checkbox">Target</th>
+                        <th scope="col" data-width="75" data-align="center" data-field="checkbox"></th>
                         </th>
                         <th scope="col" class="collapse" data-field="id">ID</th>
-                        <th scope="col" data-sortable="true" data-field="title">Title</th>
-                        <th scope="col" data-sortable="true" data-field="url">URL</th>
+                        <th scope="col" data-sortable="true" data-field="title">__MSG_title__</th>
+                        <th scope="col" data-sortable="true" data-field="url">__MSG_url__</th>
                     </tr>
                 </thead>
                 <tbody id="deleteSuggestionTable">
@@ -44,5 +43,6 @@
             </table>
         </div>
     </body>
+    <script src="loadHtml.js"></script>
     <script src="deleteSuggestion.js"></script>
 </html>

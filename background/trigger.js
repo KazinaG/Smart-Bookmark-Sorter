@@ -3,6 +3,8 @@ loop();
 
 toReflectConfig();
 
+localizeResources();
+
 chrome.runtime.onInstalled.addListener(function () {
 	pusher(typeAggregate);
 });
@@ -35,6 +37,7 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 	console.log("storage.onChanged:" + changes + ", " + areaName);
 });
 
+// TODO configUtil.jsに移して問題ないか確認する。　理由：階層感が他と違うため。
 function pusher(params) {
 	if (!processList[processList.length - 1]) {
 		processList.push({ message: params });
