@@ -7,14 +7,14 @@
 	"description": "Frees you from organizing your bookmarks.",
 	"version": "2.4.0",
 	"icons": {
-		"16": "icon_16.png",
-		"32": "icon_32.png",
-		"48": "icon_48.png",
-		"64": "icon_64.png",
-		"128": "icon_128.png"
+		"16": "SBS icon 16.png",
+		"32": "SBS icon 32.png",
+		"48": "SBS icon 48.png",
+		"64": "SBS icon 64.png",
+		"128": "SBS icon 128.png"
 	},
 	"browser_action": {
-		"default_icon": "icon_128.png",
+		"default_icon": "SBS icon 128.png",
 		"default_title": "Option",
 		"default_popup": "popup/html/option.html"
 	},
