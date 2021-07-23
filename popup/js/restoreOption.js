@@ -6,6 +6,7 @@ async function initialize() {
     sortLevel = document.getElementById('sortLevel');
     sortList = document.getElementById('sortList');
     sortTarget = { bar: document.getElementById('bookmarksBar'), mobile: document.getElementById('mobileBookmarks'), other: document.getElementById('otherBookmarks') };
+    deleteSuggestionTargetsLength = document.getElementById('delete_target_number');
 
     await getConstantFromBackgroundPage();
 
@@ -56,6 +57,7 @@ function getConstantFromBackgroundPage() {
             sortTarget.bar.checked = response.sortTargetList[0].value;
             sortTarget.mobile.checked = response.sortTargetList[1].value;
             sortTarget.other.checked = response.sortTargetList[2].value;
+            deleteSuggestionTargetsLength.innerHTML = response.deleteSuggestionTargetsLength;
             resolve(response);
         });
     });

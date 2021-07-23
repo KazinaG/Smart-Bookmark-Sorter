@@ -35,10 +35,11 @@ async function saveSyncStorage(request, sender, callback) {
 
 async function responseConstant(request, sender, callback) {
     callback({
-        termSelections: termSelections,
-        decreasePercentageSelections: decreasePercentageSelections,
-        sortOrderList: sortOrderList,
-        sortTargetList: sortTargetList
+        termSelections: termSelections
+        , decreasePercentageSelections: decreasePercentageSelections
+        , sortOrderList: sortOrderList
+        , sortTargetList: sortTargetList
+        , deleteSuggestionTargetsLength
     });
 }
 

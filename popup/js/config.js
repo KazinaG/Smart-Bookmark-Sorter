@@ -12,3 +12,4 @@ let decreasePercentage = {};
 let sortLevel;
 let sortList;
 let sortTarget;
+let deleteSuggestionTargetsLength = 0;

@@ -8,10 +8,11 @@ async function aggregate() {
     deleteSuggestionTargets = tempDeleteSuggestionTargets;
 
     if (deleteSuggestionTargets.length > 0) {
-        let displayBadge = deleteSuggestionTargets.length;
+        deleteSuggestionTargetsLength = deleteSuggestionTargets.length;
+        let displayBadge = deleteSuggestionTargetsLength;
         if (displayBadge >= 1000) displayBadge = '999+'
         chrome.browserAction.setBadgeText({ text: String(displayBadge) });
-    }
+    } else { deleteSuggestionTargetsLength = 0; }
 };
 
 function getTree() {

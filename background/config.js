@@ -11,3 +11,4 @@ let node;
 
 let deleteSuggestionTargets = [];
 let tempDeleteSuggestionTargets = [];
+let deleteSuggestionTargetsLength = 0;
