@@ -1,19 +1,35 @@
 async function initialize() {
 
+    localizeHtmlPage();
+
+    // TODO 後ほどfunction化する。
+    sortLevel = document.getElementById('sortLevel');
+    sortList = document.getElementById('sortList');
+    sortTarget = { bar: document.getElementById('bookmarksBar'), mobile: document.getElementById('mobileBookmarks'), other: document.getElementById('otherBookmarks') };
+    deleteSuggestionTargetsLength = document.getElementById('delete_target_number');
+
     await getConstantFromBackgroundPage();
 
-    for (let i = 0; i < termSelections.length; i++) {
-        let option = document.createElement('option');
-        option.setAttribute('value', termSelections[i].value);
-        option.innerHTML = termSelections[i].display;
-        term.appendChild(option);
-    }
+    // フル機能用に下記のコメントは残しておく
+    // for (let i = 0; i < termSelections.length; i++) {
+    //     let option = document.createElement('option');
+    //     option.setAttribute('value', termSelections[i].value);
+    //     option.innerHTML = termSelections[i].display;
+    //     term.appendChild(option);
+    // }
 
-    for (let i = 0; i < decreasePercentageSelections.length; i++) {
+    // for (let i = 0; i < decreasePercentageSelections.length; i++) {
+    //     let option = document.createElement('option');
+    //     option.setAttribute('value', decreasePercentageSelections[i].value);
+    //     option.innerHTML = decreasePercentageSelections[i].display;
+    //     decreasePercentage.appendChild(option);
+    // }
+
+    for (let i = 0; i < sortLevelSelections.length; i++) {
         let option = document.createElement('option');
-        option.setAttribute('value', decreasePercentageSelections[i].value);
-        option.innerHTML = decreasePercentageSelections[i].display;
-        decreasePercentage.appendChild(option);
+        option.setAttribute('value', sortLevelSelections[i].value);
+        option.innerHTML = sortLevelSelections[i].display;
+        sortLevel.appendChild(option);
     }
 
     await restore_options();
@@ -36,10 +52,12 @@ function getConstantFromBackgroundPage() {
         }, function (response) {
             termSelections = response.termSelections;
             decreasePercentageSelections = response.decreasePercentageSelections;
+            sortLevelSelections = response.decreasePercentageSelections;
             sortOrderList = response.sortOrderList;
             sortTarget.bar.checked = response.sortTargetList[0].value;
             sortTarget.mobile.checked = response.sortTargetList[1].value;
             sortTarget.other.checked = response.sortTargetList[2].value;
+            deleteSuggestionTargetsLength.innerHTML = response.deleteSuggestionTargetsLength;
             resolve(response);
         });
     });
@@ -57,19 +75,29 @@ function initializeSortList() {
 
 async function restore_options() {
     let configuration = await getConfigurationFromBackgroundPage();
-    if (configuration.term) {
-        for (let i = 0; i < termSelections.length; i++) {
-            if (termSelections[i].value == parseInt(configuration.term)) {
-                term.selectedIndex = i;
-                break;
-            }
-        }
-    }
+    // フル機能用に下記のコメントは残しておく
+    // if (configuration.term) {
+    //     for (let i = 0; i < termSelections.length; i++) {
+    //         if (termSelections[i].value == parseInt(configuration.term)) {
+    //             term.selectedIndex = i;
+    //             break;
+    //         }
+    //     }
+    // }
+
+    // if (configuration.decreasePercentage) {
+    //     for (let i = 0; i < decreasePercentageSelections.length; i++) {
+    //         if (decreasePercentageSelections[i].value == parseFloat(configuration.decreasePercentage)) {
+    //             decreasePercentage.selectedIndex = i;
+    //             break;
+    //         }
+    //     }
+    // }
 
     if (configuration.decreasePercentage) {
-        for (let i = 0; i < decreasePercentageSelections.length; i++) {
-            if (decreasePercentageSelections[i].value == parseFloat(configuration.decreasePercentage)) {
-                decreasePercentage.selectedIndex = i;
+        for (let i = 0; i < sortLevelSelections.length; i++) {
+            if (sortLevelSelections[i].value == parseFloat(configuration.decreasePercentage)) {
+                sortLevel.selectedIndex = i;
                 break;
             }
         }
@@ -101,7 +129,7 @@ async function restore_options() {
         sortTarget.other.checked = configuration.sortTarget.isOther;
     }
 
-    changeDisabled();
+    // changeDisabled();
 }
 
 function getConfigurationFromBackgroundPage() {

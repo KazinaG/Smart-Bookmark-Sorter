@@ -1,59 +1,42 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
     <head>
-        <link rel="stylesheet"
-              href="../css/bootstrap.min.css" />
+        <link rel="stylesheet" href="../css/bootstrap.min.css" />
         <script src="../library/jQuery-3.4.1.min.js"></script>
         <script src="../library/jquery-ui.min.js"></script>
         <script src="../library/bootstrap.min.js"></script>
-        <link rel="stylesheet"
-              href="bootstrap-table.css">
+        <link rel="stylesheet" href="bootstrap-table.css">
         <script src="bootstrap-table.js"></script>
-        <title>Delete Suggestion</title>
+        <link rel="stylesheet" href="bootstrap-table-sticky-header.css">
+        <script src="bootstrap-table-sticky-header.js"></script>
+        <title>__MSG_delete_suggestion__</title>
+        <script src="loadHtml.js"></script>
+        <script src="deleteSuggestion.js"></script>
     </head>
-    <body class="bg-dark text-white"
-          style="overflow-x: hidden;">
-        <nav class="
-          p-3
-          d-flex
-          justify-content-between
-          sticky-top
-          navbar
-          navbar-light
-          bg-light">
+    <body class="bg-dark text-white overflow-hidden">
+        <nav class="navbar bg-light navbar-light sticky-top">
             <div class="container-fluid">
-                <a class="navbar-brand"
-                   href="#"> Delete Suggestion </a>
-                <button type="button"
-                        class="btn btn-danger"
-                        id="delete">Delete</button>
+                <a class="navbar-brand" href="#">
+                    <img src="/SBS icon 128.png" alt="" height="20"> __MSG_delete_suggestion__</a>
+                <div class="navbar-text">__MSG_description__ </div>
+                <button type="button" class="btn btn-danger" id="delete">__MSG_delete__</button>
             </div>
         </nav>
-        <div class="p-3">
-            <table class="table table-dark"
-                   style="table-layout:fixed;"
-                   id="table">
+        <div class="overflow-auto" style="height: calc(100vh - 50px);">
+            <table id="table" class="table table-dark table-hover table-sm"
+                style="table-layout:fixed; word-wrap: break-word;" data-sort-name="title"
+                data-sort-order="asc">
                 <thead>
                     <tr>
-                        <th scope="col"
-                            style="width: 3%;"
-                            data-field="checkbox">Target</th>
+                        <th scope="col" data-width="40" data-align="center" data-field="checkbox"></th>
                         </th>
-                        <th scope="col"
-                            class="collapse"
-                            data-field="id">ID</th>
-                        <th scope="col"
-                            style="width:50%;"
-                            data-field="title">Title</th>
-                        <th scope="col"
-                            style="width:50%;"
-                            data-field="url">URL</th>
+                        <th scope="col" class="collapse" data-field="id">ID</th>
+                        <th scope="col" data-sortable="true" data-field="title">__MSG_title__</th>
+                        <th scope="col" data-sortable="true" data-field="url">__MSG_url__</th>
                     </tr>
                 </thead>
-                <tbody id="deleteSuggestionTable">
-                </tbody>
+                <tbody id="deleteSuggestionTable"></tbody>
             </table>
         </div>
     </body>
-    <script src="deleteSuggestion.js"></script>
 </html>

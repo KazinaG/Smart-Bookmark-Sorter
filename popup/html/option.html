@@ -1,51 +1,35 @@
 <!DOCTYPE html>
 <html>
        <head>
-              <link rel="stylesheet"
-                    href="../../css/bootstrap.min.css" />
+              <link rel="stylesheet" href="../../css/bootstrap.min.css" />
               <script src="../../library/jQuery-3.4.1.min.js"></script>
               <script src="../../library/jquery-ui.min.js"></script>
               <script src="../../library/bootstrap.min.js"></script>
-              <link rel="stylesheet"
-                    href="../css/option.css">
-              <title>Option</title>
+              <link rel="stylesheet" href="../css/option.css">
+              <title>__MSG_popup_title__</title>
        </head>
        <body class="bg-dark text-white">
               <div class="p-3 ">
                      <div class="text-center font-weight-bold"> Smart Bookmark Sorter</div>
                      <hr>
                      <a href="../../deleteSuggestion/deleteSuggestion.html"
-                        target="_blank">Delete Suggestion </a>
-                     <hr> Sort Order <ul id="sortList"
-                         class="list-group">
-                     </ul>
-                     <hr> Sort Target <div class="form-check form-switch">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="bookmarksBar" />
-                            <label class="form-check-label"
-                                   for="bookmarksBar">Bookmarks bar</label>
+                            target="_blank">__MSG_delete_suggestion__(<span id="delete_target_number">0</span>)</a>
+                     <hr> __MSG_sort_target__ <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="bookmarksBar" />
+                            <label class="form-check-label" for="bookmarksBar">__MSG_bookmark_bar__</label>
                             <br>
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="mobileBookmarks" />
-                            <label class="form-check-label"
-                                   for="mobileBookmarks">Mobile bookmarks</label>
+                            <input class="form-check-input" type="checkbox" id="mobileBookmarks" />
+                            <label class="form-check-label" for="mobileBookmarks">__MSG_mobile_bookmarks__</label>
                             <br>
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   id="otherBookmarks" />
-                            <label class="form-check-label"
-                                   for="otherBookmarks">Other bookmarks</label>
+                            <input class="form-check-input" type="checkbox" id="otherBookmarks" />
+                            <label class="form-check-label" for="otherBookmarks">__MSG_other_bookmarks__</label>
                      </div>
-                     <hr> Term <select class="form-select"
-                             id="term"
-                             required>
-                     </select>
-                     <br> Decrease Percentage <select class="form-select"
-                             id="decreasePercentage"
-                             required>
-                     </select>
+                     <hr>__MSG_sort_order__<ul id="sortList" class="list-group">
+                     </ul>
+                     <hr>__MSG_sort_level__<select class="form-select" id="sortLevel" required></select>
+                     <!-- フル機能用に下記のコメントは残しておく -->
+                     <!-- <br> Term <select class="form-select" id="term" required> </select>
+                     <br> Decrease Percentage <select class="form-select" id="decreasePercentage" required> </select> -->
               </div>
        </body>
        <script src="../js/config.js"></script>
