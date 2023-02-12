@@ -49,7 +49,7 @@ function getConstantFromBackgroundPage() {
     return new Promise((resolve, reject) => {
         chrome.runtime.sendMessage({
             message: "getConstant"
-        }, function (response) {
+        }, function(response) {
             termSelections = response.termSelections;
             decreasePercentageSelections = response.decreasePercentageSelections;
             sortLevelSelections = response.decreasePercentageSelections;
@@ -66,7 +66,7 @@ function getConstantFromBackgroundPage() {
 function initializeSortList() {
     $('#sortList').sortable({
         axis: 'y',
-        update: function (event, ui) {
+        update: function(event, ui) {
             changedSortOrder = $(this).sortable("toArray");
             save_options();
         }
@@ -136,7 +136,7 @@ function getConfigurationFromBackgroundPage() {
     return new Promise((resolve, reject) => {
         chrome.runtime.sendMessage({
             message: "getConfiguration"
-        }, function (response) {
+        }, function(response) {
             resolve(response);
         });
     });
