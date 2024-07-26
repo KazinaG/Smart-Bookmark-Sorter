@@ -1,0 +1,14 @@
+{
+	"name": "Debian Slim",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"PsykoSoldi3r.vscode-git-flow",
+				"mhutchie.git-graph"
+			]
+		}
+	}
+}
