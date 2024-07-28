@@ -10,5 +10,6 @@
 				"mhutchie.git-graph"
 			]
 		}
-	}
+	},
+	"postCreateCommand": "git config --global --add safe.directory /workspaces/Smart-Bookmark-Sorter"
 }
