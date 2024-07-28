@@ -11,5 +11,5 @@
 			]
 		}
 	},
-	"postCreateCommand": "git config --global --add safe.directory /workspaces/Smart-Bookmark-Sorter"
+	"postCreateCommand": "git config --global --add safe.directory /workspaces/Smart-Bookmark-Sorter && git flow init -d"
 }
