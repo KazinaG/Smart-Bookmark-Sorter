@@ -11,7 +11,7 @@ async function aggregate() {
         deleteSuggestionTargetsLength = deleteSuggestionTargets.length;
         let displayBadge = deleteSuggestionTargetsLength;
         if (displayBadge >= 1000) displayBadge = '999+'
-        chrome.browserAction.setBadgeText({ text: String(displayBadge) });
+        chrome.action.setBadgeText({ text: String(displayBadge) });
     } else { deleteSuggestionTargetsLength = 0; }
 };
 

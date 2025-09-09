@@ -9,8 +9,8 @@ chrome.runtime.onInstalled.addListener(function () {
 	pusher(typeAggregate);
 });
 
-chrome.browserAction.onClicked.addListener(function () {
-	pusher(typeAggregate);
+chrome.action.onClicked.addListener(function () {
+        pusher(typeAggregate);
 });
 
 chrome.bookmarks.onCreated.addListener(function (id, bookmark) {

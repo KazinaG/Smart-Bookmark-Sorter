@@ -1,11 +1,11 @@
 {
-	"manifest_version": 2,
+        "manifest_version": 3,
 	"author": "Kazina",
 	"homepage_url": "https://github.com/KazinaG/Smart-Bookmark-Sorter",
 	"name": "Smart Bookmark Sorter",
 	"short_name": "SBS",
 	"description": "Frees you from organizing your bookmarks.",
-	"version": "2.4.2",
+        "version": "3.0.0",
 	"icons": {
 		"16": "SBS icon 16.png",
 		"32": "SBS icon 32.png",
@@ -13,27 +13,14 @@
 		"64": "SBS icon 64.png",
 		"128": "SBS icon 128.png"
 	},
-	"browser_action": {
-		"default_icon": "SBS icon 128.png",
-		"default_title": "Option",
-		"default_popup": "popup/html/option.html"
-	},
-	"background": {
-		"scripts": [
-			"background/jQuery/jQuery-3.4.1.js",
-			"background/constant.js",
-			"background/config.js",
-			"background/configUtil.js",
-			"background/option/receiver.js",
-			"background/observer.js",
-			"background/processor/setVisitPoint.js",
-			"background/processor/bookmark-sorter.js",
-			"background/processor/aggregate.js",
-			"background/processor/deleteBookmarks.js",
-			"background/trigger.js"
-		],
-		"persistent": false
-	},
+        "action": {
+                "default_icon": "SBS icon 128.png",
+                "default_title": "Option",
+                "default_popup": "popup/html/option.html"
+        },
+        "background": {
+                "service_worker": "background/background.js"
+        },
 	"permissions": [
 		"bookmarks",
 		"history",
