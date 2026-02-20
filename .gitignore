@@ -3,6 +3,8 @@
 node_modules/
 dist/
 coverage/
+tmp/
+temp/
 
 # テストデータ・キャッシュ
 Store/
@@ -21,13 +23,26 @@ Thumbs.db
 # その他
 *.log
 .devcontainer/devcontainer.env
+.devcontainer/.tmp/
 
-temp
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test
+.env.test.local
+.env.production.local
+
+# pnpm
+.pnpm-debug.log*
+.pnpm-store/
+.pnpm/
+pnpm-debug.log*
+
+# Worktree artifacts
+worktrees/
 
 # Codex runtime artifacts
-.codex/auth.json
-.codex/models_cache.json
-.codex/.personality_migration
-.codex/sessions/
-.codex/shell_snapshots/
-.codex/tmp/
+.codex/*
+!.codex/README.md
+!.codex/config.toml
