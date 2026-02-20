@@ -1,0 +1,24 @@
+# .gitignore
+# ビルド・依存・一時ファイル
+node_modules/
+dist/
+coverage/
+
+# テストデータ・キャッシュ
+Store/
+
+# IDE/エディタ
+.vscode/
+*.code-workspace
+
+# OSごとの不要ファイル
+.DS_Store
+Thumbs.db
+
+# ドキュメント作業用一時ファイル
+/docs/scratch/
+
+# その他
+*.log
+
+temp
