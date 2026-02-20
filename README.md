@@ -1,19 +1,18 @@
 # Smart Bookmark Sorter
 
-Smart Bookmark Sorter is a Chrome extension project that helps organize bookmarks based on usage patterns.
+Smart Bookmark Sorter は、利用状況に基づいてブックマーク整理を支援する Chrome 拡張機能プロジェクトです。
 
 - Chrome Web Store: https://chrome.google.com/webstore/detail/smart-bookmark-sorter/bcdnngbkmicnnjdibijnmgmmonpmcjmi
 
-## Documentation Entry Points
+## ドキュメント入口
 
-- Project docs hub: `docs/README.md`
-- Agent operating rules: `AGENTS.md`
-- DevContainer setup (English): `.devcontainer/README.md`
-- DevContainer setup (Japanese): `.devcontainer/README.ja.md`
+- ドキュメントハブ: `docs/README.md`
+- エージェント運用ルール: `AGENTS.md`
+- DevContainer 手順（日本語）: `.devcontainer/README.ja.md`
 
-## Development Notes
+## 開発メモ
 
-- Operational source of truth is under `docs/`.
-- Runtime and approval behavior for Codex CLI is documented in:
+- 仕様・運用の一次情報は `docs/` を正本とします。
+- 承認モデルと開発フローの基準は次を参照します。
   - `docs/policies/approval.md`
   - `docs/dev-practices/process.md`
