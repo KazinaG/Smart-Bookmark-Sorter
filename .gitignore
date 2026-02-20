@@ -20,6 +20,7 @@ Thumbs.db
 
 # その他
 *.log
+.devcontainer/devcontainer.env
 
 temp
 

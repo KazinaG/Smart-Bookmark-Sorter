@@ -6,6 +6,9 @@
 			"TZ": "Asia/Tokyo"
 		}
 	},
+	"runArgs": [
+		"--env-file=${localWorkspaceFolder}/.devcontainer/devcontainer.env"
+	],
 	"features": {
 		"ghcr.io/devcontainers/features/git:1": {},
 		"ghcr.io/devcontainers/features/github-cli:1": {}
@@ -23,8 +26,6 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"PsykoSoldi3r.vscode-git-flow",
-				"mhutchie.git-graph",
 				"openai.chatgpt"
 			]
 		}

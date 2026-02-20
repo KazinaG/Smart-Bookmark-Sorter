@@ -44,7 +44,23 @@ To easily manage your SSH keys, install and configure Keychain.
    source $HOME/.keychain/$(hostname)-sh
    ```
 
-### 3. Starting the DevContainer
+### 3. Preparing `devcontainer.env` for GitHub Token
+
+Before starting the container, create a local `.devcontainer/devcontainer.env` file and set `GH_TOKEN`.
+
+1. Create `devcontainer.env` from the sample.
+   ```sh
+   cp .devcontainer/devcontainer.env.example .devcontainer/devcontainer.env
+   ```
+
+2. Edit `.devcontainer/devcontainer.env` and set your token.
+   ```env
+   GH_TOKEN=<your_github_pat>
+   ```
+
+The DevContainer configuration uses `--env-file=${localWorkspaceFolder}/.devcontainer/devcontainer.env`, so `GH_TOKEN` is available in the container.
+
+### 4. Starting the DevContainer
 
 Once the development environment is set up, start the DevContainer to begin development.
 
@@ -57,3 +73,15 @@ Once the development environment is set up, start the DevContainer to begin deve
 4. Open the command palette (`Ctrl+Shift+P`) and select "Dev Containers: Reopen in Container".
 
 This will start the DevContainer, and you'll be ready to begin development.
+
+### 5. Troubleshooting: `not a git repository` in a worktree
+
+If you moved the repository directory (for example between WSL paths), a worktree may keep stale absolute paths in `.git`.
+When that happens, opening the worktree in DevContainer can fail with:
+`fatal: not a git repository: .../.git/worktrees/<name>`.
+
+Run this on the host terminal from the repository root, then rebuild the container:
+
+```sh
+git worktree repair worktrees/chore-codex-runtime-alignment
+```

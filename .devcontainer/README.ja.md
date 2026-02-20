@@ -44,7 +44,23 @@ SSHキーの管理を容易にするため、Keychainをインストールし、
    source $HOME/.keychain/$(hostname)-sh
    ```
 
-### 3. DevContainerの起動
+### 3. GitHubトークン用 `devcontainer.env` の準備
+
+コンテナ起動前に、ローカルの `.devcontainer/devcontainer.env` を作成して `GH_TOKEN` を設定します。
+
+1. サンプルから `devcontainer.env` を作成します。
+   ```sh
+   cp .devcontainer/devcontainer.env.example .devcontainer/devcontainer.env
+   ```
+
+2. `.devcontainer/devcontainer.env` を編集してトークンを設定します。
+   ```env
+   GH_TOKEN=<your_github_pat>
+   ```
+
+DevContainer 設定は `--env-file=${localWorkspaceFolder}/.devcontainer/devcontainer.env` を使用するため、`GH_TOKEN` はコンテナ内でも利用できます。
+
+### 4. DevContainerの起動
 
 開発環境を整えたら、次にDevContainerを起動して開発を開始します。
 
@@ -57,3 +73,14 @@ SSHキーの管理を容易にするため、Keychainをインストールし、
 4. コマンドパレット（`Ctrl+Shift+P`）を開き、「Dev Containers: Reopen in Container」を選択します。
 
 これでDevContainerが起動し、開発を開始する準備が整います。
+
+### 5. トラブルシュート: worktree で `not a git repository` が出る場合
+
+リポジトリの配置先を移動した場合（WSL のパス変更など）、worktree の `.git` に残っている絶対パスが古くなり、
+DevContainer 起動時に `fatal: not a git repository: .../.git/worktrees/<name>` が出ることがあります。
+
+その場合はホスト側ターミナルでリポジトリルートに移動して、次を実行してから再ビルドしてください。
+
+```sh
+git worktree repair worktrees/chore-codex-runtime-alignment
+```
