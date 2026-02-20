@@ -15,6 +15,11 @@ RUN apt-get update && \
 
 ARG USERNAME=node
 
+# Allow postStartCommand npm global installs as the non-root remote user.
+RUN mkdir -p /usr/local/lib/node_modules /usr/local/bin && \
+  chown -R $USERNAME:$USERNAME /usr/local/lib/node_modules && \
+  chown $USERNAME:$USERNAME /usr/local/bin
+
 # Persist bash history outside container lifecycle.
 RUN mkdir -p /commandhistory && \
   touch /commandhistory/.bash_history && \
