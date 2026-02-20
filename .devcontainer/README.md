@@ -83,5 +83,11 @@ When that happens, opening the worktree in DevContainer can fail with:
 Run this on the host terminal from the repository root, then rebuild the container:
 
 ```sh
-git worktree repair worktrees/chore-codex-runtime-alignment
+git worktree repair worktrees/<your-worktree-name>
 ```
+
+### 6. Expected startup messages
+
+- If the repository root has no `package.json`, this log is expected during `postCreateCommand`:
+  `No package.json, skip npm install`
+- `postStartCommand` updates `@openai/codex` and `pnpm` each container start.

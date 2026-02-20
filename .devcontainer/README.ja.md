@@ -82,5 +82,11 @@ DevContainer 起動時に `fatal: not a git repository: .../.git/worktrees/<name
 その場合はホスト側ターミナルでリポジトリルートに移動して、次を実行してから再ビルドしてください。
 
 ```sh
-git worktree repair worktrees/chore-codex-runtime-alignment
+git worktree repair worktrees/<your-worktree-name>
 ```
+
+### 6. 起動時ログの想定
+
+- リポジトリルートに `package.json` がない場合、`postCreateCommand` で
+  `No package.json, skip npm install` と表示されるのは想定どおりです。
+- `postStartCommand` では、コンテナ起動のたびに `@openai/codex` と `pnpm` を更新します。
