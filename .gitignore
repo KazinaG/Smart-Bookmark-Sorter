@@ -6,9 +6,6 @@ coverage/
 tmp/
 temp/
 
-# テストデータ・キャッシュ
-Store/
-
 # IDE/エディタ
 .vscode/
 *.code-workspace
