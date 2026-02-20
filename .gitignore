@@ -1,0 +1,33 @@
+# .gitignore
+# ビルド・依存・一時ファイル
+node_modules/
+dist/
+coverage/
+
+# テストデータ・キャッシュ
+Store/
+
+# IDE/エディタ
+.vscode/
+*.code-workspace
+
+# OSごとの不要ファイル
+.DS_Store
+Thumbs.db
+
+# ドキュメント作業用一時ファイル
+/docs/scratch/
+
+# その他
+*.log
+.devcontainer/devcontainer.env
+
+temp
+
+# Codex runtime artifacts
+.codex/auth.json
+.codex/models_cache.json
+.codex/.personality_migration
+.codex/sessions/
+.codex/shell_snapshots/
+.codex/tmp/
