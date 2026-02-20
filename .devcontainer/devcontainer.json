@@ -1,0 +1,36 @@
+{
+	"name": "Smart Bookmark Sorter Dev Environment (Codex Optimized)",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"TZ": "Asia/Tokyo"
+		}
+	},
+	"runArgs": [
+		"--env-file=${localWorkspaceFolder}/.devcontainer/devcontainer.env"
+	],
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"mounts": [
+		"source=codex-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
+		"source=${localWorkspaceFolder}/.codex,target=/home/node/.codex,type=bind"
+	],
+	"containerEnv": {
+		"HISTFILE": "/commandhistory/.bash_history",
+		"SHELL": "/bin/bash"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"openai.chatgpt"
+			]
+		}
+	},
+	"postCreateCommand": "git config --global --add safe.directory /workspace && git flow init -d && npm install",
+	"postStartCommand": "npm install -g @openai/codex@latest pnpm@latest",
+	"remoteUser": "node"
+}
