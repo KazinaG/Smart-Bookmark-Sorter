@@ -9,7 +9,8 @@ RUN apt-get update && \
     git \
     git-flow \
     procps \
-    curl && \
+    curl \
+    jq && \
   rm -rf /var/lib/apt/lists/*
 
 ARG USERNAME=node
