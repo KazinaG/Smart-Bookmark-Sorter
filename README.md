@@ -8,7 +8,6 @@ Smart Bookmark Sorter は、利用状況に基づいてブックマーク整理�
 
 - ドキュメントハブ: `docs/README.md`
 - エージェント運用ルール: `AGENTS.md`
-- DevContainer 手順（日本語）: `.devcontainer/README.ja.md`
 
 ## 開発メモ
 
