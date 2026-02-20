@@ -22,3 +22,11 @@ Thumbs.db
 *.log
 
 temp
+
+# Codex runtime artifacts
+.codex/auth.json
+.codex/models_cache.json
+.codex/.personality_migration
+.codex/sessions/
+.codex/shell_snapshots/
+.codex/tmp/

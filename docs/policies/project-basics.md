@@ -13,9 +13,10 @@
 ## 運用前提（Codex CLI）
 
 - 既定の実行環境（DevContainer 前提）
-  - `approval_policy = "on-request"`
-  - `sandbox_mode = "danger-full-access"`
-  - ネットワーク可否は実行環境の設定に従う
+  - `remoteUser = "node"` を使用する
+  - `workspaceFolder = "/workspace"` を使用する
+  - `.codex` を `/home/node/.codex` にマウントし、設定と履歴を永続化する
+  - 承認モデル・サンドボックス・ネットワーク可否はハーネス設定に従う
 - 上記は運用上の前提であり、最終的には本ガイドラインの規約が優先されます。
 - 反映操作の承認境界は `docs/policies/approval.md` を正本とします。
   - 開始前はステージング・コミット・Push を行いません。

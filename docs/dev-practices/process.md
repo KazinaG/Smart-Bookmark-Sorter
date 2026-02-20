@@ -55,7 +55,8 @@
 ## コミット・マージ運用
 
 - コミット粒度、メッセージ、bundling は `docs/dev-practices/commit.md` に従う。
-- 競合予見と安全マージは `pnpm run git:premerge <branch>`、`pnpm run merge:safe <branch>` を使う。
+- 競合予見と安全マージは、プロジェクトで定義した script（例: `npm run git:premerge <branch>`、`npm run merge:safe <branch>`）を使う。
+- script が未定義の場合は、`git fetch` と `git merge --no-commit --no-ff` で事前確認する。
 - 履歴整形（rebase --autosquash / fixup / squash）は worktree 内で実施し、反映承認とは分けて扱う。
 
 ## 参照先

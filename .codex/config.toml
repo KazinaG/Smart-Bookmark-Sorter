@@ -5,7 +5,7 @@ sandbox_mode = "danger-full-access"
 personality = "pragmatic"
 web_search = "live"
 
-[projects."/workspaces/Smart-Bookmark-Sorter"]
+[projects."/workspace"]
 trust_level = "trusted"
 
 [shell_environment_policy]

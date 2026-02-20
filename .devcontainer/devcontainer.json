@@ -1,15 +1,35 @@
 {
-	"name": "Debian Slim",
+	"name": "Smart Bookmark Sorter Dev Environment (Codex Optimized)",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
+		"args": {
+			"TZ": "Asia/Tokyo"
+		}
 	},
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"mounts": [
+		"source=codex-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
+		"source=${localWorkspaceFolder}/.codex,target=/home/node/.codex,type=bind"
+	],
+	"containerEnv": {
+		"HISTFILE": "/commandhistory/.bash_history",
+		"SHELL": "/bin/bash"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+	"workspaceFolder": "/workspace",
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"PsykoSoldi3r.vscode-git-flow",
-				"mhutchie.git-graph"
+				"mhutchie.git-graph",
+				"openai.chatgpt"
 			]
 		}
 	},
-	"postCreateCommand": "git config --global --add safe.directory /workspaces/Smart-Bookmark-Sorter && git flow init -d"
+	"postCreateCommand": "git config --global --add safe.directory /workspace && git flow init -d && npm install",
+	"postStartCommand": "npm install -g @openai/codex@latest pnpm@latest",
+	"remoteUser": "node"
 }

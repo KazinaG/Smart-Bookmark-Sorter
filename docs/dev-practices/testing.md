@@ -12,10 +12,10 @@ Regression-first × BDD 方針で、仕様逸脱と回帰を早期に検知し�
 
 ## 基本実行順序
 
-1. `pnpm verify`
-2. `pnpm run test:ci`
+1. `npm run test`
+2. `npm run test:e2e`（E2E を含む場合）
 
-UI 計測や E2E の前にも、まず上記を通してベースラインを確認します。
+`verify` や `test:ci` が定義されている場合は、CI ではそれらを優先して実行します。
 
 ## カバレッジ基準
 

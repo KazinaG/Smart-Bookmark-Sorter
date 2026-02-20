@@ -12,10 +12,10 @@
 
 ## 既定ループ
 
-1. `pnpm run lint:fix`
-2. `pnpm run typecheck`
+1. `npm run lint:fix`（定義済みの場合）
+2. `npm run typecheck`（定義済みの場合）
 
-必要に応じて `pnpm run lint` を追加実行して最終状態を確認します。
+必要に応じて `npm run lint` を追加実行して最終状態を確認します。
 
 ## ルール
 
@@ -28,10 +28,10 @@
 pre-commit では次を順に実行します。
 
 1. `lint-staged`
-2. `pnpm verify`
-3. `pnpm test:ci`
+2. `npm run verify`（定義済みの場合）
+3. `npm run test:ci`（定義済みの場合）
 
 ## ドキュメント編集後
 
-- `pnpm run lint:markdown` を実行し、エラー 0 を確認する。
-- 自動修正が必要な場合のみ `pnpm run lint:fix:markdown`（または `pnpm run lint:fix`）を実行する。
+- `npm run lint:markdown` を実行し、エラー 0 を確認する（定義済みの場合）。
+- 自動修正が必要な場合のみ `npm run lint:fix:markdown`（または `npm run lint:fix`）を実行する。

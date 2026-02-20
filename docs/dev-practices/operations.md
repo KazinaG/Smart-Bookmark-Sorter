@@ -11,7 +11,8 @@
 
 ## スクリプト優先
 
-- 既定は `pnpm run <script>`。
+- 既定は `npm run <script>`。
+- `pnpm` を使う場合は同名 script を `pnpm run <script>` で実行する。
 - 直接 CLI 実行が必要な場合は、再現性のためにスクリプト化を優先する。
 
 ## タイムアウト運用
@@ -35,8 +36,8 @@
 
 ## 開発サーバー運用
 
-- 起動: `pnpm dev` または `pnpm dev:devtools`
-- 停止: `pnpm dev:stop` または `pnpm dev:devtools:stop`
+- 起動/停止コマンドは `package.json` の scripts を正本とする。
+- 例: `npm run dev` / `npm run dev:stop`
 
 ## GitHub オペレーション
 

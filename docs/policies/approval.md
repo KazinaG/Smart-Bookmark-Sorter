@@ -15,8 +15,8 @@
 
 | Level | 対象 | 例 |
 | --- | --- | --- |
-| 0 | 読み取り・静的検証 | 閲覧、検索、`pnpm run lint`、`pnpm run typecheck`、安全な Unit/SSR テスト |
-| 1 | 編集・副作用を伴う実行 | ファイル編集、`pnpm run lint:fix`、`pnpm dev`、外部依存を伴うテスト |
+| 0 | 読み取り・静的検証 | 閲覧、検索、`npm run lint`、`npm run typecheck`、安全な Unit/SSR テスト |
+| 1 | 編集・副作用を伴う実行 | ファイル編集、`npm run lint:fix`、`npm run dev`、外部依存を伴うテスト |
 | 2 | 履歴・外部反映 | `main` 取り込み、`git push`、外部サービス反映 |
 
 ## 承認語彙（単一正本）
