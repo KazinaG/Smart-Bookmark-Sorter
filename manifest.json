@@ -16,10 +16,10 @@
 	"action": {
 		"default_icon": "SBS icon 128.png",
 		"default_title": "Option",
-		"default_popup": "popup/html/option.html"
+		"default_popup": "src/ui/popup/html/option.html"
 	},
 	"background": {
-		"service_worker": "background/service-worker.js"
+		"service_worker": "src/background/service-worker.js"
 	},
 	"permissions": [
 		"bookmarks",
