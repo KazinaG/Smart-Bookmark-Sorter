@@ -6,8 +6,8 @@
 
 ## スコープ
 
-- popup の並び替え UI を jQuery UI sortable からネイティブ Drag & Drop へ置換する。
-- deleteSuggestion 一覧を bootstrap-table 依存からネイティブ描画・ネイティブソートへ置換する。
+- options UI の並び替えを jQuery UI sortable からネイティブ Drag & Drop へ置換する。
+- delete-suggestion 一覧を bootstrap-table 依存からネイティブ描画・ネイティブソートへ置換する。
 - HTML から jQuery / jQuery UI / bootstrap-table の script / style 読み込みを削除する。
 
 ## 非スコープ
@@ -25,7 +25,7 @@
 
 ## 受け入れ条件
 
-- `popup/html/option.html` と `deleteSuggestion/deleteSuggestion.html` に jQuery 系読込が残っていない。
-- popup で並び替え変更が保存され、再表示時に復元される。
-- deleteSuggestion でタイトル/URLソート、削除実行、再描画が機能する。
+- `src/extension/ui/options/index.html` と `src/extension/ui/delete-suggestion/index.html` に jQuery 系読込が残っていない。
+- options UI で並び替え変更が保存され、再表示時に復元される。
+- delete-suggestion でタイトル/URLソート、削除実行、再描画が機能する。
 - `rg` による検索でアプリコードから jQuery API 利用が消えている（vendorファイル除く）。

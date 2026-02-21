@@ -49,6 +49,7 @@
   - `dist/release/smart-bookmark-sorter-v<version>-minimal.files.txt`
 - 抽出基準は `manifest.json` のエントリと、そこから辿れる静的参照（HTML/JS/CSS）を正本とする。
 - 動的参照で自動検出できないファイルがある場合は `--include <path>` で明示追加する。
+- これは開発構造（`src/extension`）からの回帰確認・暫定パッケージ用であり、正式配布の正本は次節の `build/extension` を使う。
 
 ## 配布構造生成運用
 
