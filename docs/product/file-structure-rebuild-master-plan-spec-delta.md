@@ -34,6 +34,9 @@
 ## 目標構造（開発構造）
 
 ```text
+assets/
+└─ store-listing/
+
 src/extension/
 ├─ background/
 ├─ ui/
@@ -93,6 +96,8 @@ build/extension/
 | `src/vendor/library` | `src/extension/vendor/bootstrap` |
 | `css/bootstrap.min.css` | `src/extension/vendor/bootstrap/bootstrap.min.css` |
 | `SBS icon 128.png` など | `src/extension/assets/icons/icon-128.png` など |
+| `Store/*` | `assets/store-listing/*` |
+| `icon/Logo.png` | 削除（未参照資産） |
 | `_locales`（ルート） | `src/extension/assets/locales`（開発正本） |
 | `manifest.json`（ルート） | `src/extension/manifest.template.json`（開発正本） |
 | `option.html` | `index.html` |

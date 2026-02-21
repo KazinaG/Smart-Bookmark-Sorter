@@ -2,6 +2,7 @@
 # ビルド・依存・一時ファイル
 node_modules/
 dist/
+build/
 coverage/
 tmp/
 temp/

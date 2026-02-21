@@ -18,6 +18,8 @@
 .
 ├─ docs/
 ├─ tools/
+├─ assets/
+│  └─ store-listing/  # 非 runtime 資産（Chrome 配布物に同梱しない）
 ├─ src/
 │  └─ extension/
 │     ├─ background/
@@ -42,6 +44,7 @@
 - 開発構造（`src/extension`）と配布構造（`build/extension`）を分離し、役割を混在させない
 - `build/extension` は生成専用とし、手編集しない
 - Chrome 配布制約（例: `_locales` の配置要件）は配布構造で満たす
+- 非 runtime 資産（ストア掲載画像など）はルート `assets/` に集約し、配布構造へ混入させない
 - `move/rename` と挙動変更を同一コミットに混在させない
 - 参照パス変更は同一変更セットで完結させ、追跡可能性を確保する
 - 新規コードで jQuery 依存を増やさない
