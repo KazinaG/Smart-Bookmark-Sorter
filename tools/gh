@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ -z "${GH_TOKEN:-}" ]; then
+  echo "[gh wrapper] GH_TOKEN が未設定です。先に GH_TOKEN を設定してください。" >&2
+  exit 1
+fi
+
+exec env GH_TOKEN="$GH_TOKEN" gh "$@"
