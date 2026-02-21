@@ -45,6 +45,9 @@ async function initialize() {
     initializeSortList();
 }
 
+let draggedSortItem = null;
+let dragStartOrder = [];
+
 function getConstantFromBackgroundPage() {
     return new Promise((resolve, reject) => {
         chrome.runtime.sendMessage({
@@ -64,13 +67,71 @@ function getConstantFromBackgroundPage() {
 }
 
 function initializeSortList() {
-    $('#sortList').sortable({
-        axis: 'y',
-        update: function (event, ui) {
-            changedSortOrder = $(this).sortable("toArray");
-            save_options();
-        }
+    let items = sortList.querySelectorAll('li');
+    items.forEach((item) => {
+        item.setAttribute('draggable', 'true');
+        item.classList.add('draggable-sort-item');
+        item.addEventListener('dragstart', onSortDragStart);
+        item.addEventListener('dragover', onSortDragOver);
+        item.addEventListener('drop', onSortDragDrop);
+        item.addEventListener('dragend', onSortDragEnd);
     });
+}
+
+function onSortDragStart(event) {
+    draggedSortItem = event.currentTarget;
+    dragStartOrder = getCurrentSortOrder();
+    draggedSortItem.classList.add('dragging');
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', draggedSortItem.id);
+}
+
+function onSortDragOver(event) {
+    event.preventDefault();
+    if (!draggedSortItem) return;
+
+    let targetItem = event.currentTarget;
+    if (targetItem === draggedSortItem) return;
+
+    let targetRect = targetItem.getBoundingClientRect();
+    let shouldInsertAfter = event.clientY > targetRect.top + targetRect.height / 2;
+
+    if (shouldInsertAfter) {
+        if (targetItem.nextSibling !== draggedSortItem) {
+            sortList.insertBefore(draggedSortItem, targetItem.nextSibling);
+        }
+    } else if (targetItem !== draggedSortItem.nextSibling) {
+        sortList.insertBefore(draggedSortItem, targetItem);
+    }
+}
+
+function onSortDragDrop(event) {
+    event.preventDefault();
+}
+
+function onSortDragEnd() {
+    if (!draggedSortItem) return;
+
+    draggedSortItem.classList.remove('dragging');
+    changedSortOrder = getCurrentSortOrder();
+    if (!isSameOrder(dragStartOrder, changedSortOrder)) {
+        save_options();
+    }
+
+    draggedSortItem = null;
+    dragStartOrder = [];
+}
+
+function getCurrentSortOrder() {
+    return Array.from(sortList.querySelectorAll('li')).map((item) => item.id);
+}
+
+function isSameOrder(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b) || a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
 }
 
 async function restore_options() {

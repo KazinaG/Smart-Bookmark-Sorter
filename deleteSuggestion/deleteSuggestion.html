@@ -2,13 +2,6 @@
 <html>
     <head>
         <link rel="stylesheet" href="../css/bootstrap.min.css" />
-        <script src="../library/jQuery-3.4.1.min.js"></script>
-        <script src="../library/jquery-ui.min.js"></script>
-        <script src="../library/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="bootstrap-table.css">
-        <script src="bootstrap-table.js"></script>
-        <link rel="stylesheet" href="bootstrap-table-sticky-header.css">
-        <script src="bootstrap-table-sticky-header.js"></script>
         <title>__MSG_delete_suggestion__</title>
         <script src="loadHtml.js"></script>
         <script src="deleteSuggestion.js"></script>
@@ -24,15 +17,13 @@
         </nav>
         <div class="overflow-auto" style="height: calc(100vh - 50px);">
             <table id="table" class="table table-dark table-hover table-sm"
-                style="table-layout:fixed; word-wrap: break-word;" data-sort-name="title"
-                data-sort-order="asc">
+                style="table-layout:fixed; word-wrap: break-word;">
                 <thead>
                     <tr>
-                        <th scope="col" data-width="40" data-align="center" data-field="checkbox"></th>
-                        </th>
-                        <th scope="col" class="collapse" data-field="id">ID</th>
-                        <th scope="col" data-sortable="true" data-field="title">__MSG_title__</th>
-                        <th scope="col" data-sortable="true" data-field="url">__MSG_url__</th>
+                        <th scope="col" class="text-center" style="width:40px;"></th>
+                        <th scope="col" class="collapse">ID</th>
+                        <th scope="col" data-sort-field="title">__MSG_title__</th>
+                        <th scope="col" data-sort-field="url">__MSG_url__</th>
                     </tr>
                 </thead>
                 <tbody id="deleteSuggestionTable"></tbody>

@@ -1,80 +1,145 @@
 document.addEventListener('DOMContentLoaded', initialize);
 
-async function initialize(reflesh) {
+let deleteTargets = [];
+let currentSort = { field: 'title', direction: 'asc' };
+let isEventListenersReady = false;
 
+async function initialize() {
     localizeHtmlPage();
-
     addEventListeners();
+    await loadAndRenderDeleteTargets();
+}
 
-    let deleteTargets = await returnDeleteTargets();
-    var dataList = [];
-    $('#table').bootstrapTable('destroy');
-    for (let i in deleteTargets) {
-        let th = document.createElement('th');
-        th.setAttribute('scope', 'row');
-        // Checkbox
+function addEventListeners() {
+    if (isEventListenersReady) return;
+
+    document.getElementById('delete').addEventListener('click', deleteBookmarks);
+    let sortableHeaders = document.querySelectorAll('th[data-sort-field]');
+    sortableHeaders.forEach((header) => {
+        header.dataset.baseLabel = header.textContent.trim();
+        header.style.cursor = 'pointer';
+        header.addEventListener('click', () => {
+            applySort(header.dataset.sortField);
+        });
+    });
+
+    isEventListenersReady = true;
+}
+
+async function loadAndRenderDeleteTargets() {
+    deleteTargets = await returnDeleteTargets();
+    renderDeleteTargetsTable();
+}
+
+function renderDeleteTargetsTable() {
+    updateSortIndicators();
+
+    let targetTable = document.getElementById('deleteSuggestionTable');
+    targetTable.innerHTML = '';
+
+    let sortedTargets = sortDeleteTargets(deleteTargets, currentSort.field, currentSort.direction);
+    sortedTargets.forEach((target) => {
+        let tr = document.createElement('tr');
+
+        let checkboxCell = document.createElement('th');
+        checkboxCell.setAttribute('scope', 'row');
+        checkboxCell.classList.add('text-center');
+
         let input = document.createElement('input');
         input.setAttribute('class', 'form-check-input');
         input.setAttribute('type', 'checkbox');
-        input.setAttribute('id', 'flexCheckDefault');
         input.setAttribute('name', 'deleteCheckbox');
-        input.value = deleteTargets[i].id;
-        th.appendChild(input);
-        // URL
-        var td2 = document.createElement('td');
-        let url = document.createElement('a');
-        // URLの子要素を追加
-        url.setAttribute('href', deleteTargets[i].url);
-        url.setAttribute('target', "_blank");
-        url.innerHTML = deleteTargets[i].url;
-        td2.appendChild(url);
+        input.value = target.id;
+        checkboxCell.appendChild(input);
 
-        dataList.push({
-            checkbox: th.innerHTML
-            , id: deleteTargets[i].id
-            , title: deleteTargets[i].title
-            , url: td2.innerHTML
-        });
+        let idCell = document.createElement('td');
+        idCell.classList.add('collapse');
+        idCell.textContent = target.id;
+
+        let titleCell = document.createElement('td');
+        titleCell.textContent = target.title;
+
+        let urlCell = document.createElement('td');
+        let urlAnchor = document.createElement('a');
+        urlAnchor.setAttribute('href', target.url);
+        urlAnchor.setAttribute('target', '_blank');
+        urlAnchor.setAttribute('rel', 'noopener noreferrer');
+        urlAnchor.classList.add('link-light');
+        urlAnchor.textContent = target.url;
+        urlCell.appendChild(urlAnchor);
+
+        tr.appendChild(checkboxCell);
+        tr.appendChild(idCell);
+        tr.appendChild(titleCell);
+        tr.appendChild(urlCell);
+
+        targetTable.appendChild(tr);
+    });
+}
+
+function applySort(field) {
+    if (currentSort.field === field) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSort.field = field;
+        currentSort.direction = 'asc';
     }
 
-    $('#table').bootstrapTable({ data: dataList });
+    renderDeleteTargetsTable();
+}
+
+function sortDeleteTargets(targets, field, direction) {
+    let sorted = [...targets];
+    sorted.sort((a, b) => {
+        let left = String(a[field] || '').toUpperCase();
+        let right = String(b[field] || '').toUpperCase();
+        if (left < right) return direction === 'asc' ? -1 : 1;
+        if (left > right) return direction === 'asc' ? 1 : -1;
+        return 0;
+    });
+    return sorted;
+}
+
+function updateSortIndicators() {
+    let headers = document.querySelectorAll('th[data-sort-field]');
+    headers.forEach((header) => {
+        let field = header.dataset.sortField;
+        let baseLabel = header.dataset.baseLabel || header.textContent.trim();
+        let indicator = '';
+        if (currentSort.field === field) {
+            indicator = currentSort.direction === 'asc' ? ' ▲' : ' ▼';
+        }
+        header.textContent = baseLabel + indicator;
+    });
 }
 
 async function returnDeleteTargets() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         chrome.runtime.sendMessage({
             message: "getDeleteTargets"
         }, function (response) {
-            resolve(response);
+            resolve(response || []);
         });
     });
 }
 
 async function deleteBookmarks() {
-    var deleteIdList = [];
-    var checkBoxList = document.getElementsByName('deleteCheckbox');
-    for (let i = 0; i < checkBoxList.length; i++) {
-        if (checkBoxList[i].checked) {
-            deleteIdList.push(checkBoxList[i].value);
-        }
-    }
+    let checkBoxList = document.querySelectorAll('input[name="deleteCheckbox"]:checked');
+    let deleteIdList = Array.from(checkBoxList).map((checkbox) => checkbox.value);
 
-    // backgroundへ送信
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         chrome.runtime.sendMessage({
             message: "deleteBookmarks",
             deleteIdList: deleteIdList
-        },
-            // callbackで再描画処理
-            async function (response) {
-                await initialize();
-                resolve(response);
-            });
+        }, async function () {
+            await loadAndRenderDeleteTargets();
+            resolve();
+        });
     });
 }
 
 function localizeHtmlPage() {
-    //Localize by replacing __MSG_***__ meta tags
+    // Localize by replacing __MSG_***__ meta tags.
     var objects = document.getElementsByTagName('html');
     for (var j = 0; j < objects.length; j++) {
         var obj = objects[j];
