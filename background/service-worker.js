@@ -1,0 +1,12 @@
+importScripts(
+    'constant.js',
+    'config.js',
+    'configUtil.js',
+    'option/receiver.js',
+    'observer.js',
+    'processor/setVisitPoint.js',
+    'processor/bookmark-sorter.js',
+    'processor/aggregate.js',
+    'processor/deleteBookmarks.js',
+    'trigger.js'
+);

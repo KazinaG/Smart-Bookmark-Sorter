@@ -9,7 +9,7 @@ chrome.runtime.onInstalled.addListener(function () {
 	pusher(typeAggregate);
 });
 
-chrome.browserAction.onClicked.addListener(function () {
+chrome.action.onClicked.addListener(function () {
 	pusher(typeAggregate);
 });
 
