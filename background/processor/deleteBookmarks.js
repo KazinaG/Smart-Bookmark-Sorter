@@ -1,9 +1,7 @@
-async function deleteBookmarksById(deleteIdList, callback) {
+async function deleteBookmarksById(deleteIdList) {
     for (let i = 0; i < deleteIdList.length; i++) {
         await removeBookmarkById(deleteIdList[i]);
     }
-    await aggregate();
-    callback();
 };
 
 function removeBookmarkById(deleteId) {

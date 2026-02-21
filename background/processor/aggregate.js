@@ -12,7 +12,10 @@ async function aggregate() {
         let displayBadge = deleteSuggestionTargetsLength;
         if (displayBadge >= 1000) displayBadge = '999+'
         chrome.action.setBadgeText({ text: String(displayBadge) });
-    } else { deleteSuggestionTargetsLength = 0; }
+    } else {
+        deleteSuggestionTargetsLength = 0;
+        chrome.action.setBadgeText({ text: '' });
+    }
 };
 
 function getTree() {
