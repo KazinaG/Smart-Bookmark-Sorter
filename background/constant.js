@@ -1,7 +1,6 @@
 const conf_key = 'configuration';
 
 const typeAggregate = 'aggregate';
-const typeDeleteBookmarks = 'deleteBookmarks'
 
 const term_none = 0;
 const termSelections = [

@@ -1,40 +1,57 @@
-async function loop() {
-	while (true) {
-		await wait();
-		await observer();
-	}
+async function initializeEventDrivenObserver() {
+	await toReflectConfig();
+	localizeResources();
+	await hydrateRuntimeStateToMemory();
+	await processPendingAggregateRequests();
 }
 
-function wait() {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			resolve();
-		}, sleepSec * 1000);
-	})
+function requestAggregateProcessing() {
+	enqueueAggregateRequest()
+		.then(() => processPendingAggregateRequests())
+		.catch((error) => {
+			console.error('requestAggregateProcessing failed', error);
+		});
 }
 
-async function observer() {
-	if (!isProcessing && (processList.length > 0)) {
-		isProcessing = true;
-		while (processList.length > 0) {
-			await classifier(processList.shift());
-		}
-	}
-	else if (isProcessing) {
-		await sortBookmarks();
-		isProcessing = false;
-	} else {
-	}
-};
+function enqueueAggregateRequest() {
+	aggregateEnqueueTask = aggregateEnqueueTask.then(async () => {
+		await updateRuntimeState((runtimeState) => {
+			runtimeState.aggregateRequestSeq += 1;
+			return runtimeState;
+		});
+	});
+	return aggregateEnqueueTask;
+}
 
-async function classifier(process) {
-	switch (process.message) {
-		case typeAggregate:
+async function processPendingAggregateRequests() {
+	if (isAggregateProcessing) {
+		return;
+	}
+
+	isAggregateProcessing = true;
+	try {
+		let hasPendingRequest = true;
+		while (hasPendingRequest) {
+			const runtimeState = await getRuntimeState();
+			hasPendingRequest = runtimeState.aggregateRequestSeq > runtimeState.lastProcessedSeq;
+			if (!hasPendingRequest) break;
+
+			const targetSeq = runtimeState.aggregateRequestSeq;
+			await toReflectConfig();
+			localizeResources();
 			await aggregate();
-			break;
-		case typeDeleteBookmarks:
-			await deleteBookmarksById(process.param, process.callback);
-			break;
-		default:
+			await sortBookmarks();
+
+			await updateRuntimeState((nextRuntimeState) => {
+				nextRuntimeState.lastProcessedSeq = Math.max(nextRuntimeState.lastProcessedSeq, targetSeq);
+				nextRuntimeState.deleteSuggestionTargets = deleteSuggestionTargets;
+				nextRuntimeState.deleteSuggestionTargetsLength = deleteSuggestionTargetsLength;
+				return nextRuntimeState;
+			});
+		}
+	} catch (error) {
+		console.error('processPendingAggregateRequests failed', error);
+	} finally {
+		isAggregateProcessing = false;
 	}
-};
+}

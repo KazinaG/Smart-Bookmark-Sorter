@@ -12,6 +12,64 @@ function setConfiguration(value) {
     });
 }
 
+function normalizeRuntimeState(value) {
+    const runtimeState = value || {};
+    return {
+        aggregateRequestSeq: Number.isInteger(runtimeState.aggregateRequestSeq) ? runtimeState.aggregateRequestSeq : 0,
+        lastProcessedSeq: Number.isInteger(runtimeState.lastProcessedSeq) ? runtimeState.lastProcessedSeq : 0,
+        deleteSuggestionTargets: Array.isArray(runtimeState.deleteSuggestionTargets) ? runtimeState.deleteSuggestionTargets : [],
+        deleteSuggestionTargetsLength: Number.isInteger(runtimeState.deleteSuggestionTargetsLength) ? runtimeState.deleteSuggestionTargetsLength : 0
+    };
+}
+
+function readRuntimeState() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get([runtime_state_key], function (result) {
+            resolve(normalizeRuntimeState(result[runtime_state_key]));
+        });
+    });
+}
+
+function writeRuntimeState(runtimeState) {
+    return new Promise((resolve) => {
+        chrome.storage.local.set({ [runtime_state_key]: normalizeRuntimeState(runtimeState) }, function () {
+            resolve();
+        });
+    });
+}
+
+function getRuntimeState() {
+    return readRuntimeState();
+}
+
+function setRuntimeState(runtimeState) {
+    return writeRuntimeState(runtimeState);
+}
+
+function updateRuntimeState(updater) {
+    const task = runtimeStateTask.then(async () => {
+        const current = await readRuntimeState();
+        const updated = updater(current);
+        const next = normalizeRuntimeState(updated || current);
+        await writeRuntimeState(next);
+        return next;
+    });
+
+    runtimeStateTask = task.then(
+        () => undefined,
+        () => undefined
+    );
+
+    return task;
+}
+
+async function hydrateRuntimeStateToMemory() {
+    const runtimeState = await getRuntimeState();
+    deleteSuggestionTargets = runtimeState.deleteSuggestionTargets;
+    deleteSuggestionTargetsLength = runtimeState.deleteSuggestionTargetsLength;
+    return runtimeState;
+}
+
 async function toReflectConfig() {
     let configuration = await getConfiguration();
     if (configuration.term) term = configuration.term;

@@ -1,12 +1,15 @@
-// 監視開始
-loop();
-
-toReflectConfig();
-
-localizeResources();
+initializeEventDrivenObserver().catch((error) => {
+	console.error('initializeEventDrivenObserver failed', error);
+});
 
 chrome.runtime.onInstalled.addListener(function () {
 	pusher(typeAggregate);
+});
+
+chrome.runtime.onStartup.addListener(function () {
+	initializeEventDrivenObserver().catch((error) => {
+		console.error('onStartup initialize failed', error);
+	});
 });
 
 chrome.action.onClicked.addListener(function () {
@@ -39,9 +42,7 @@ chrome.storage.onChanged.addListener(function (changes, areaName) {
 
 // TODO configUtil.jsに移して問題ないか確認する。　理由：階層感が他と違うため。
 function pusher(params) {
-	if (!processList[processList.length - 1]) {
-		processList.push({ message: params });
-	} else if (processList[processList.length - 1].message != params) {
-		processList.push({ message: params });
+	if (params === typeAggregate) {
+		requestAggregateProcessing();
 	}
 }
