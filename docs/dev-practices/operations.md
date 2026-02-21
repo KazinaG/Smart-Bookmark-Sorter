@@ -41,9 +41,16 @@
 
 ## GitHub オペレーション
 
-- GitHub 操作は `gh` を使用し、対象リポジトリは `.codex/config.toml` の `GH_REPO` を既定とする。
-- 書き込み系は `gh -R "$GH_REPO" ...` のように対象リポジトリを明示する。
+- GitHub 操作は `tools/gh`（`GH_TOKEN` 必須のラッパー）経由で行い、対象リポジトリは `.codex/config.toml` の `GH_REPO` を既定とする。
+- 書き込み系は `./tools/gh -R "$GH_REPO" ...` のように対象リポジトリを明示する。
+- ガードは `tools/guards/no-raw-gh.sh` を使用し、シェルスクリプト内での `gh` 直実行を検出して失敗させる。
 - 認証情報（PAT 等）は出力・共有しない。
+
+## Git Hooks
+
+- 共有 pre-commit フックは `.githooks/pre-commit` を正本とする。
+- 初回のみ `git config core.hooksPath .githooks` を実行し、リポジトリ内フックを有効化する。
+- pre-commit では `tools/guards/no-docs.sh` と `tools/guards/no-raw-gh.sh` を実行する。
 
 ## 補足
 

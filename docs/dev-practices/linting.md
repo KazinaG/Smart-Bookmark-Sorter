@@ -35,6 +35,8 @@ pre-commit では次を順に実行します。
 2. `npm run verify`（定義済みの場合）
 3. `npm run test:ci`（定義済みの場合）
 
+このリポジトリの共有フック実体は `.githooks/pre-commit` で、最低限 `tools/guards/no-docs.sh` と `tools/guards/no-raw-gh.sh` を実行します。
+
 ## ドキュメント編集後
 
 - `npm run lint:markdown` を実行し、エラー 0 を確認する（定義済みの場合）。
