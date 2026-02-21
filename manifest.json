@@ -7,19 +7,19 @@
 	"description": "Frees you from organizing your bookmarks.",
 	"version": "2.4.4",
 	"icons": {
-		"16": "SBS icon 16.png",
-		"32": "SBS icon 32.png",
-		"48": "SBS icon 48.png",
-		"64": "SBS icon 64.png",
-		"128": "SBS icon 128.png"
+		"16": "src/extension/assets/icons/icon-16.png",
+		"32": "src/extension/assets/icons/icon-32.png",
+		"48": "src/extension/assets/icons/icon-48.png",
+		"64": "src/extension/assets/icons/icon-64.png",
+		"128": "src/extension/assets/icons/icon-128.png"
 	},
 	"action": {
-		"default_icon": "SBS icon 128.png",
+		"default_icon": "src/extension/assets/icons/icon-128.png",
 		"default_title": "Option",
-		"default_popup": "src/ui/popup/html/option.html"
+		"default_popup": "src/extension/ui/options/index.html"
 	},
 	"background": {
-		"service_worker": "src/background/service-worker.js"
+		"service_worker": "src/extension/background/service-worker.js"
 	},
 	"permissions": [
 		"bookmarks",

@@ -1,4 +1,4 @@
-// src/background/constant.jsから値を入れて使うこと。
+// src/extension/background/constant.jsから値を入れて使うこと。
 let termSelections = [];
 let decreasePercentageSelections = [];
 let sortLevelSelections = [];
