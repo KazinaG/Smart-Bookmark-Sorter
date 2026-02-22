@@ -52,6 +52,8 @@ function parseArgs(argv) {
     inputDir: "build/extension",
     outDir: "dist/release",
     skipVerify: false,
+    keepOld: false,
+    expectedTag: null,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -78,6 +80,19 @@ function parseArgs(argv) {
       options.skipVerify = true;
       continue;
     }
+    if (token === "--keep-old") {
+      options.keepOld = true;
+      continue;
+    }
+    if (token === "--expected-tag") {
+      const next = argv[i + 1];
+      if (!next) {
+        fail("--expected-tag には値が必要です。");
+      }
+      options.expectedTag = String(next).trim();
+      i += 1;
+      continue;
+    }
     if (token === "--help" || token === "-h") {
       console.log("Usage: node tools/release/pack-extension.mjs [options]");
       console.log("");
@@ -85,6 +100,8 @@ function parseArgs(argv) {
       console.log("  --input-dir <path>   zip 化対象 (default: build/extension)");
       console.log("  --out-dir <path>     出力先 (default: dist/release)");
       console.log("  --skip-verify        事前 verify を省略する");
+      console.log("  --expected-tag <tag> manifest.version と一致するタグを必須化する (例: v2.4.5)");
+      console.log("  --keep-old           既存の release 成果物を削除せず残す");
       process.exit(0);
     }
     fail(`不明な引数です: ${token}`);
@@ -136,6 +153,27 @@ function runZip(inputAbsolute, zipAbsolute) {
   }
 }
 
+function isManagedReleaseArtifact(fileName) {
+  return fileName.endsWith("-extension.zip") || fileName.endsWith("-extension.files.txt");
+}
+
+async function cleanupOldReleaseArtifacts(outAbsolute) {
+  if (!fs.existsSync(outAbsolute) || !fs.statSync(outAbsolute).isDirectory()) {
+    return 0;
+  }
+
+  const entries = await fsp.readdir(outAbsolute, { withFileTypes: true });
+  let removed = 0;
+  for (const entry of entries) {
+    if (!entry.isFile() || !isManagedReleaseArtifact(entry.name)) {
+      continue;
+    }
+    await fsp.rm(path.join(outAbsolute, entry.name), { force: true });
+    removed += 1;
+  }
+  return removed;
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const inputRelative = normalizeRelativePath(options.inputDir);
@@ -164,7 +202,27 @@ async function main() {
   }
 
   await fsp.mkdir(outAbsolute, { recursive: true });
-  const baseName = `${slugify(manifest.name || "extension")}-v${manifest.version || "0.0.0"}-extension`;
+  const manifestName = typeof manifest.name === "string" && manifest.name.trim() ? manifest.name : "extension";
+  const manifestVersion = typeof manifest.version === "string" ? manifest.version.trim() : "";
+  if (!manifestVersion) {
+    fail("manifest.version が空です。");
+  }
+
+  if (options.expectedTag) {
+    const expectedTagByManifest = `v${manifestVersion}`;
+    if (options.expectedTag !== expectedTagByManifest) {
+      fail(
+        `expected-tag (${options.expectedTag}) と manifest.version (${manifestVersion}) が一致しません。期待値: ${expectedTagByManifest}`
+      );
+    }
+  }
+
+  let cleaned = 0;
+  if (!options.keepOld) {
+    cleaned = await cleanupOldReleaseArtifacts(outAbsolute);
+  }
+
+  const baseName = `${slugify(manifestName)}-v${manifestVersion}-extension`;
   const zipAbsolute = path.join(outAbsolute, `${baseName}.zip`);
   const listAbsolute = path.join(outAbsolute, `${baseName}.files.txt`);
 
@@ -176,6 +234,7 @@ async function main() {
   await fsp.writeFile(listAbsolute, `${files.join("\n")}\n`, "utf8");
   runZip(inputAbsolute, zipAbsolute);
 
+  console.log(`[pack-extension] cleaned: ${cleaned} old artifact(s)`);
   console.log(`[pack-extension] zip: ${toPosixPath(path.relative(ROOT_DIR, zipAbsolute))}`);
   console.log(`[pack-extension] list: ${toPosixPath(path.relative(ROOT_DIR, listAbsolute))}`);
   console.log(`[pack-extension] files: ${files.length}`);

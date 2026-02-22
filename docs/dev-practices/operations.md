@@ -44,12 +44,22 @@
 - Chrome に渡す正規化出力は `build/extension` を単一正本とする。
 - 生成: `node tools/release/build-extension.mjs`
 - 検証: `node tools/release/verify-extension-layout.mjs --dir build/extension`
-- zip 化: `node tools/release/pack-extension.mjs --input-dir build/extension`
-- 標準シーケンス:
+- zip 化: `node tools/release/pack-extension.mjs --input-dir build/extension --expected-tag vX.Y.Z`
+- `pack-extension` は既定で `dist/release` 配下の旧成果物（`*-extension.zip`, `*-extension.files.txt`）を削除してから再生成する。
+- 旧成果物を残したい場合のみ `--keep-old` を明示する。
+- 配布成果物（`dist/release/*`）は Git 管理しない。
+- 標準シーケンス（タグ候補 `vX.Y.Z` で配布物を作る場合）:
   1. `node tools/release/build-extension.mjs`
   2. `node tools/release/verify-extension-layout.mjs --dir build/extension`
-  3. `node tools/release/pack-extension.mjs --input-dir build/extension`
+  3. `node tools/release/pack-extension.mjs --input-dir build/extension --expected-tag vX.Y.Z`
 - `assets/store-listing` のような非 runtime 資産は `build/extension` に同梱しない。
+
+## タグ付けと version 整合
+
+- タグ名は `v<manifest.version>` を必須とする（例: manifest が `2.4.5` の場合は `v2.4.5`）。
+- タグ作成前に必ず `pack-extension --expected-tag vX.Y.Z` を実行し、version 不一致なら失敗させる。
+- タグ付け時点で `dist/release` に当該 version の zip が存在する状態を必須とする。
+- タグ作成と push は `docs/policies/approval.md` の承認語彙に従う。
 
 ## GitHub オペレーション
 

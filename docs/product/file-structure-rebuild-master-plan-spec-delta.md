@@ -112,6 +112,8 @@ build/extension/
 1. `build-extension`: `src/extension` を入力に `build/extension` を生成する。
 2. `verify-extension-layout`: `manifest` と参照資産、`_locales` 配置を検証する。
 3. `pack-extension`: `build/extension` を zip 化して `dist/release` へ出力する。
+   - 既定で `dist/release` の旧成果物（`*-extension.zip`, `*-extension.files.txt`）を削除してから生成する。
+   - `--expected-tag vX.Y.Z` を指定した場合、`manifest.version` とタグ候補の不一致で失敗する。
 
 ## 移行フェーズ
 
@@ -147,5 +149,7 @@ build/extension/
 
 - 開発者は `src/extension` のみを正本として編集できる。
 - 配布は `build/extension` を唯一の入力として成立する。
+- タグ付け前に、`manifest.version` とタグ（`v<version>`）の一致を機械的に検証できる。
+- タグ付け時点で、`dist/release` に当該 version の zip が取得可能である。
 - 命名規則（小文字ケバブケース）に準拠している。
 - 変更理由、移行フェーズ、回帰確認が docs と履歴から追跡できる。
