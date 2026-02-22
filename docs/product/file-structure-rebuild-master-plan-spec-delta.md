@@ -113,8 +113,6 @@ build/extension/
 2. `verify-extension-layout`: `manifest` と参照資産、`_locales` 配置を検証する。
 3. `pack-extension`: `build/extension` を zip 化して `dist/release` へ出力する。
 
-将来的には `tools/release/build-minimal-bundle.mjs` を `build/extension` 入力前提に統合する。
-
 ## 移行フェーズ
 
 ### Phase A（docs-first）
