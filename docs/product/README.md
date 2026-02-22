@@ -10,3 +10,4 @@
 - `ui-modernization-jquery-removal-spec-delta.md`: jQuery依存除去とUI最小モダン化の仕様差分
 
 実装に先立って方針を更新する場合は、`提案 → 明示承認 → 反映` を守ります。
+`docs/product/*` の陳腐化文書の扱いは `docs/policies/documentation.md` の「陳腐化文書の扱い（`docs/product/*`）」に従います。
