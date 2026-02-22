@@ -42,12 +42,14 @@
 ## 配布構造生成運用
 
 - Chrome に渡す正規化出力は `build/extension` を単一正本とする。
+- 一括実行: `node tools/release/release-prepare.mjs --tag vX.Y.Z`
 - 生成: `node tools/release/build-extension.mjs`
 - 検証: `node tools/release/verify-extension-layout.mjs --dir build/extension`
 - zip 化: `node tools/release/pack-extension.mjs --input-dir build/extension --expected-tag vX.Y.Z`
 - `pack-extension` は既定で `dist/release` 配下の旧成果物（`*-extension.zip`, `*-extension.files.txt`）を削除してから再生成する。
 - 旧成果物を残したい場合のみ `--keep-old` を明示する。
 - 配布成果物（`dist/release/*`）は Git 管理しない。
+- `release-prepare` は build/verify/pack を直列実行し、`--expected-tag` を自動で渡す。
 - 標準シーケンス（タグ候補 `vX.Y.Z` で配布物を作る場合）:
   1. `node tools/release/build-extension.mjs`
   2. `node tools/release/verify-extension-layout.mjs --dir build/extension`
