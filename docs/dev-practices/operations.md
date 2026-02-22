@@ -39,16 +39,17 @@
 - 起動/停止コマンドは `package.json` の scripts を正本とする。
 - 例: `npm run dev` / `npm run dev:stop`
 
-## リリース最小バンドル運用
+## 配布構造生成運用
 
-- Chrome 拡張の実行に必要な最小ファイルは `tools/release/build-minimal-bundle.mjs` で生成する。
-- dry-run（確認のみ）: `node tools/release/build-minimal-bundle.mjs --dry-run`
-- zip 生成: `node tools/release/build-minimal-bundle.mjs`
-- 生成物:
-  - `dist/release/smart-bookmark-sorter-v<version>-minimal.zip`
-  - `dist/release/smart-bookmark-sorter-v<version>-minimal.files.txt`
-- 抽出基準は `manifest.json` のエントリと、そこから辿れる静的参照（HTML/JS/CSS）を正本とする。
-- 動的参照で自動検出できないファイルがある場合は `--include <path>` で明示追加する。
+- Chrome に渡す正規化出力は `build/extension` を単一正本とする。
+- 生成: `node tools/release/build-extension.mjs`
+- 検証: `node tools/release/verify-extension-layout.mjs --dir build/extension`
+- zip 化: `node tools/release/pack-extension.mjs --input-dir build/extension`
+- 標準シーケンス:
+  1. `node tools/release/build-extension.mjs`
+  2. `node tools/release/verify-extension-layout.mjs --dir build/extension`
+  3. `node tools/release/pack-extension.mjs --input-dir build/extension`
+- `assets/store-listing` のような非 runtime 資産は `build/extension` に同梱しない。
 
 ## GitHub オペレーション
 

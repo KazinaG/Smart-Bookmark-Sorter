@@ -9,7 +9,7 @@ MV2 非対応環境でも順序1（現状動作確認）を実施できるよう
 - `manifest.json` を MV3 形式へ更新する。
 - `browser_action` を `action` へ移行する。
 - `background.scripts` を `background.service_worker` へ置き換える。
-- 既存の background スクリプトを読み込むエントリ (`background/service-worker.js`) を追加する。
+- 既存の background スクリプトを読み込むエントリ（開発構造では `src/extension/background/service-worker.js`）を追加する。
 - `chrome.browserAction` 参照を `chrome.action` へ置換する。
 
 ## 非スコープ

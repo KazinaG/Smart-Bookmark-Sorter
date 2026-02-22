@@ -1,26 +1,18 @@
-# .gitignore
-# ビルド・依存・一時ファイル
+# Dependencies
 node_modules/
+.pnpm-store/
+.pnpm/
+
+# Build and temporary outputs
+build/
 dist/
 coverage/
 tmp/
 temp/
 
-# IDE/エディタ
-.vscode/
-*.code-workspace
-
-# OSごとの不要ファイル
-.DS_Store
-Thumbs.db
-
-# ドキュメント作業用一時ファイル
-/docs/scratch/
-
-# その他
+# Logs
 *.log
-.devcontainer/devcontainer.env
-.devcontainer/.tmp/
+pnpm-debug.log*
 
 # Environment variables
 .env
@@ -30,16 +22,21 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
-# pnpm
-.pnpm-debug.log*
-.pnpm-store/
-.pnpm/
-pnpm-debug.log*
+# Local development files
+.devcontainer/devcontainer.env
+.devcontainer/.tmp/
+.vscode/
+*.code-workspace
 
-# Worktree artifacts
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Project-local working directories
+docs/scratch/
 worktrees/
 
-# Codex runtime artifacts
+# Codex runtime files
 .codex/*
 !.codex/README.md
 !.codex/config.toml

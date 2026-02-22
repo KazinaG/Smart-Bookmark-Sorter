@@ -2,14 +2,12 @@
 
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 
 const ROOT_DIR = process.cwd();
 
 function fail(message) {
-  console.error(`[minimal-bundle] ${message}`);
+  console.error(`[verify-extension-layout] ${message}`);
   process.exit(1);
 }
 
@@ -18,7 +16,7 @@ function toPosixPath(value) {
 }
 
 function normalizeRelativePath(value) {
-  return path.posix.normalize(value.replace(/\\/g, "/"));
+  return path.posix.normalize(String(value).replace(/\\/g, "/"));
 }
 
 function isExternalRef(ref) {
@@ -27,10 +25,7 @@ function isExternalRef(ref) {
 
 function removeQueryAndHash(ref) {
   const index = ref.search(/[?#]/);
-  if (index === -1) {
-    return ref;
-  }
-  return ref.slice(0, index);
+  return index === -1 ? ref : ref.slice(0, index);
 }
 
 function hasGlob(value) {
@@ -63,26 +58,21 @@ function globToRegExp(globPattern) {
   return new RegExp(regex);
 }
 
-function slugify(value) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .replace(/-{2,}/g, "-");
-}
-
 function parseArgs(argv) {
   const options = {
+    extensionDir: "build/extension",
     manifestPath: "manifest.json",
-    outDir: "dist/release",
-    dryRun: false,
-    includes: [],
   };
 
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
-    if (token === "--dry-run") {
-      options.dryRun = true;
+    if (token === "--dir") {
+      const next = argv[i + 1];
+      if (!next) {
+        fail("--dir には値が必要です。");
+      }
+      options.extensionDir = next;
+      i += 1;
       continue;
     }
     if (token === "--manifest") {
@@ -94,32 +84,12 @@ function parseArgs(argv) {
       i += 1;
       continue;
     }
-    if (token === "--out-dir") {
-      const next = argv[i + 1];
-      if (!next) {
-        fail("--out-dir には値が必要です。");
-      }
-      options.outDir = next;
-      i += 1;
-      continue;
-    }
-    if (token === "--include") {
-      const next = argv[i + 1];
-      if (!next) {
-        fail("--include には値が必要です。");
-      }
-      options.includes.push(next);
-      i += 1;
-      continue;
-    }
     if (token === "--help" || token === "-h") {
-      console.log("Usage: node tools/release/build-minimal-bundle.mjs [options]");
+      console.log("Usage: node tools/release/verify-extension-layout.mjs [options]");
       console.log("");
       console.log("Options:");
-      console.log("  --dry-run            zip を作らずに抽出対象のみ表示");
-      console.log("  --manifest <path>    manifest パス (default: manifest.json)");
-      console.log("  --out-dir <path>     出力先ディレクトリ (default: dist/release)");
-      console.log("  --include <path>     自動検出に追加するファイル/パターン");
+      console.log("  --dir <path>         検証対象ディレクトリ (default: build/extension)");
+      console.log("  --manifest <path>    manifest パス（--dir からの相対）(default: manifest.json)");
       process.exit(0);
     }
     fail(`不明な引数です: ${token}`);
@@ -128,34 +98,8 @@ function parseArgs(argv) {
   return options;
 }
 
-function resolveCandidatePath(rawRef, baseDir) {
-  const cleaned = removeQueryAndHash(String(rawRef).trim());
-  if (!cleaned || cleaned === "#") {
-    return null;
-  }
-  if (isExternalRef(cleaned)) {
-    return null;
-  }
-  const relative = cleaned.startsWith("/")
-    ? cleaned.slice(1)
-    : path.posix.join(baseDir, cleaned);
-  const normalized = normalizeRelativePath(relative);
-  const absolute = path.resolve(ROOT_DIR, normalized);
-  const relativeFromRoot = toPosixPath(path.relative(ROOT_DIR, absolute));
-
-  if (
-    relativeFromRoot.startsWith("../") ||
-    relativeFromRoot === ".." ||
-    path.isAbsolute(relativeFromRoot)
-  ) {
-    return null;
-  }
-
-  return relativeFromRoot;
-}
-
-function* walkFiles(relativeDir) {
-  const absoluteDir = path.join(ROOT_DIR, relativeDir);
+function* walkFiles(baseDirAbsolute, relativeDir) {
+  const absoluteDir = path.join(baseDirAbsolute, relativeDir);
   if (!fs.existsSync(absoluteDir)) {
     return;
   }
@@ -172,10 +116,28 @@ function* walkFiles(relativeDir) {
       if (!entry.isFile()) {
         continue;
       }
-      const rel = toPosixPath(path.relative(ROOT_DIR, entryPath));
+      const rel = toPosixPath(path.relative(baseDirAbsolute, entryPath));
       yield rel;
     }
   }
+}
+
+function resolveCandidatePath(rawRef, baseDir) {
+  const cleaned = removeQueryAndHash(String(rawRef).trim());
+  if (!cleaned || cleaned === "#") {
+    return null;
+  }
+  if (isExternalRef(cleaned)) {
+    return null;
+  }
+  const relative = cleaned.startsWith("/")
+    ? cleaned.slice(1)
+    : path.posix.join(baseDir, cleaned);
+  const normalized = normalizeRelativePath(relative);
+  if (normalized.startsWith("../") || normalized === "..") {
+    return null;
+  }
+  return normalized;
 }
 
 function extractHtmlRefs(content) {
@@ -209,7 +171,6 @@ function extractJsRefs(content) {
     /\bimport\s*\(\s*["']([^"']+)["']\s*\)/g,
     /chrome\.runtime\.getURL\s*\(\s*["']([^"']+)["']\s*\)/g,
   ];
-
   for (const pattern of patterns) {
     let patternMatch = pattern.exec(content);
     while (patternMatch) {
@@ -240,10 +201,15 @@ function extractCssRefs(content) {
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
+  const extensionDir = path.resolve(ROOT_DIR, normalizeRelativePath(options.extensionDir));
   const manifestRelative = normalizeRelativePath(options.manifestPath);
-  const manifestAbsolute = path.resolve(ROOT_DIR, manifestRelative);
-  if (!fs.existsSync(manifestAbsolute)) {
-    fail(`manifest が見つかりません: ${manifestRelative}`);
+  const manifestAbsolute = path.join(extensionDir, manifestRelative);
+
+  if (!fs.existsSync(extensionDir) || !fs.statSync(extensionDir).isDirectory()) {
+    fail(`検証対象ディレクトリが見つかりません: ${toPosixPath(path.relative(ROOT_DIR, extensionDir))}`);
+  }
+  if (!fs.existsSync(manifestAbsolute) || !fs.statSync(manifestAbsolute).isFile()) {
+    fail(`manifest が見つかりません: ${toPosixPath(path.relative(ROOT_DIR, manifestAbsolute))}`);
   }
 
   let manifest;
@@ -255,7 +221,7 @@ async function main() {
 
   const collectedFiles = new Set();
   const parseQueue = [];
-  const missingRequired = [];
+  const missing = [];
 
   function addFile(relativePath, reason) {
     if (!relativePath) {
@@ -264,52 +230,26 @@ async function main() {
     if (collectedFiles.has(relativePath)) {
       return;
     }
-    const absolutePath = path.join(ROOT_DIR, relativePath);
-    if (!fs.existsSync(absolutePath)) {
-      missingRequired.push({ path: relativePath, reason });
-      return;
-    }
-    const stat = fs.statSync(absolutePath);
-    if (!stat.isFile()) {
-      missingRequired.push({ path: relativePath, reason });
+    const absolutePath = path.join(extensionDir, relativePath);
+    if (!fs.existsSync(absolutePath) || !fs.statSync(absolutePath).isFile()) {
+      missing.push({ path: relativePath, reason });
       return;
     }
     collectedFiles.add(relativePath);
     parseQueue.push(relativePath);
   }
 
-  function addDirectory(relativePath, reason) {
-    const absolutePath = path.join(ROOT_DIR, relativePath);
-    if (!fs.existsSync(absolutePath)) {
-      missingRequired.push({ path: relativePath, reason });
-      return;
-    }
-    const stat = fs.statSync(absolutePath);
-    if (!stat.isDirectory()) {
-      addFile(relativePath, reason);
-      return;
-    }
-    for (const file of walkFiles(relativePath)) {
-      addFile(file, reason);
-    }
-  }
-
   function addGlob(pattern, reason) {
-    const normalizedPattern = normalizeRelativePath(pattern);
-    const firstWildcard = normalizedPattern.search(/[*?[]/);
-    const beforeWildcard = firstWildcard === -1 ? normalizedPattern : normalizedPattern.slice(0, firstWildcard);
-    const baseDir = path.posix.dirname(beforeWildcard);
-    const scanBase = baseDir === "." ? "" : baseDir;
-    const matcher = globToRegExp(normalizedPattern);
+    const matcher = globToRegExp(normalizeRelativePath(pattern));
     let matched = 0;
-    for (const file of walkFiles(scanBase)) {
+    for (const file of walkFiles(extensionDir, "")) {
       if (matcher.test(file)) {
         addFile(file, reason);
         matched += 1;
       }
     }
     if (matched === 0) {
-      missingRequired.push({ path: normalizedPattern, reason });
+      missing.push({ path: normalizeRelativePath(pattern), reason });
     }
   }
 
@@ -347,7 +287,6 @@ async function main() {
   }
 
   addFile(manifestRelative, "manifest");
-
   addManifestValue(manifest.icons, "manifest.icons");
   addManifestValue(manifest.action?.default_icon, "manifest.action.default_icon");
   addManifestValue(manifest.action?.default_popup, "manifest.action.default_popup");
@@ -366,7 +305,6 @@ async function main() {
       addManifestValue(entry.css, `manifest.content_scripts[${index}].css`);
     }
   }
-
   if (Array.isArray(manifest.web_accessible_resources)) {
     for (const [index, entry] of manifest.web_accessible_resources.entries()) {
       addManifestValue(entry.resources, `manifest.web_accessible_resources[${index}].resources`);
@@ -374,21 +312,17 @@ async function main() {
   }
 
   if (manifest.default_locale) {
-    addDirectory("_locales", "manifest.default_locale");
-  }
-
-  for (const includePath of options.includes) {
-    addRef(includePath, ".", "cli.include");
+    const defaultLocaleFile = path.posix.join("_locales", manifest.default_locale, "messages.json");
+    addFile(defaultLocaleFile, "manifest.default_locale");
   }
 
   while (parseQueue.length > 0) {
     const relativePath = parseQueue.pop();
     const extension = path.posix.extname(relativePath).toLowerCase();
-    if (extension !== ".html" && extension !== ".js" && extension !== ".mjs" && extension !== ".cjs" && extension !== ".css") {
+    if (![".html", ".js", ".mjs", ".cjs", ".css"].includes(extension)) {
       continue;
     }
-
-    const absolutePath = path.join(ROOT_DIR, relativePath);
+    const absolutePath = path.join(extensionDir, relativePath);
     const baseDir = path.posix.dirname(relativePath);
     const content = await fsp.readFile(absolutePath, "utf8");
 
@@ -409,86 +343,17 @@ async function main() {
     }
   }
 
-  if (missingRequired.length > 0) {
-    console.error("[minimal-bundle] 必須ファイルが見つかりません。");
-    for (const item of missingRequired) {
+  if (missing.length > 0) {
+    console.error("[verify-extension-layout] 欠落ファイルがあります。");
+    for (const item of missing) {
       console.error(`  - ${item.path} (${item.reason})`);
     }
     process.exit(1);
   }
 
-  const sortedFiles = [...collectedFiles].sort();
-
-  if (options.dryRun) {
-    console.log(`[minimal-bundle] dry-run: ${sortedFiles.length} files`);
-    for (const file of sortedFiles) {
-      console.log(file);
-    }
-    return;
-  }
-
-  const outDir = path.resolve(ROOT_DIR, options.outDir);
-  await fsp.mkdir(outDir, { recursive: true });
-
-  const extensionName = slugify(manifest.name || "extension");
-  const extensionVersion = manifest.version || "0.0.0";
-  const baseName = `${extensionName}-v${extensionVersion}-minimal`;
-  const zipPath = path.join(outDir, `${baseName}.zip`);
-  const filesListPath = path.join(outDir, `${baseName}.files.txt`);
-
-  const stagingDir = await fsp.mkdtemp(path.join(os.tmpdir(), "minimal-bundle-"));
-  try {
-    for (const relativePath of sortedFiles) {
-      const sourcePath = path.join(ROOT_DIR, relativePath);
-      const destinationPath = path.join(stagingDir, relativePath);
-      await fsp.mkdir(path.dirname(destinationPath), { recursive: true });
-      await fsp.copyFile(sourcePath, destinationPath);
-    }
-
-    if (fs.existsSync(zipPath)) {
-      await fsp.rm(zipPath);
-    }
-
-    const zipResult = spawnSync("zip", ["-q", "-r", zipPath, "."], {
-      cwd: stagingDir,
-      stdio: "inherit",
-    });
-
-    if (zipResult.error && zipResult.error.code === "ENOENT") {
-      const pythonResult = spawnSync(
-        "python3",
-        ["-m", "zipfile", "-c", zipPath, "."],
-        {
-          cwd: stagingDir,
-          stdio: "inherit",
-        }
-      );
-      if (pythonResult.error) {
-        if (pythonResult.error.code === "ENOENT") {
-          fail("zip と python3 の両方が見つかりません。zip 生成手段を用意してください。");
-        }
-        fail(`python3 zip 実行に失敗しました: ${pythonResult.error.message}`);
-      }
-      if (pythonResult.status !== 0) {
-        fail(`python3 zip 実行に失敗しました (exit: ${pythonResult.status})`);
-      }
-    } else {
-      if (zipResult.error) {
-        fail(`zip 実行に失敗しました: ${zipResult.error.message}`);
-      }
-      if (zipResult.status !== 0) {
-        fail(`zip 実行に失敗しました (exit: ${zipResult.status})`);
-      }
-    }
-
-    await fsp.writeFile(filesListPath, `${sortedFiles.join("\n")}\n`, "utf8");
-  } finally {
-    await fsp.rm(stagingDir, { recursive: true, force: true });
-  }
-
-  console.log(`[minimal-bundle] zip: ${toPosixPath(path.relative(ROOT_DIR, zipPath))}`);
-  console.log(`[minimal-bundle] list: ${toPosixPath(path.relative(ROOT_DIR, filesListPath))}`);
-  console.log(`[minimal-bundle] files: ${sortedFiles.length}`);
+  console.log(
+    `[verify-extension-layout] pass: ${toPosixPath(path.relative(ROOT_DIR, extensionDir))} (${collectedFiles.size} files checked)`
+  );
 }
 
 main().catch((error) => {
